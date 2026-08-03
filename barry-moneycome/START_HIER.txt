@@ -1,0 +1,59 @@
+BARRY SENTINEL V7 – BARRY MONEYCOME WOW COCKPIT V2
+=====================================================
+
+DAS IST DIE SICHTBARE COCKPIT-SCHICHT.
+Der bestehende V7-Hauptordner bleibt unverändert an seinem sicheren Speicherort.
+
+START
+-----
+Doppelklick auf:
+START_BARRY_COCKPIT.bat
+
+Danach öffnet sich lokal:
+http://127.0.0.1:8765
+
+WOW-V2 NEU
+----------
+- lebendigere Farbcodierung für MSFT, AAPL, NVDA, AMZN, GOOGL
+- laufende lokale Uhr + New-York-Uhr
+- laufender Countdown zur regulären US-Session / zum Close
+- offenes Gewinn/Verlust prominent sichtbar
+- Gewinn/Verlust je offener Position und je Watchlist-Karte
+- Tages-/Wochen-Ergebnis und Gebühren, soweit V7 diese Daten liefert
+- dynamische Kapitalverteilung als Donut + Balken
+- Kapital- und Risikoeinstellungen wie in der früheren V6-Grundlage
+- Einstellungen werden lokal im Browser gespeichert
+- V7/IBKR-Kapitaländerung bleibt bewusst gesperrt, bis eine sichere bestätigte Write-Schnittstelle gebaut ist
+- klare Demo-Kennzeichnung; keine Fake-Kurskurve in V7-Modus bei fehlenden Daten
+
+SICHERHEIT
+----------
+- READ ONLY gegenüber Barry Sentinel V7
+- keine Broker-Order
+- keine Auszahlung
+- kein Live-Trading
+- keine automatische Kapitalerhöhung
+
+KAPITAL & REGELN
+----------------
+Im Cockpit auf „Kapital & Regeln“ klicken.
+Die Werte sind derzeit ein Cockpit-Plan / eine Demo-Konfiguration.
+Sie verändern NICHT config.paper.json und NICHT das IBKR-Konto.
+Das ist absichtlich so, bis die sichere Backend-Schreibphase separat gebaut und getestet ist.
+
+DEMO
+----
+Die Schaltfläche „Demo-Ansicht“ zeigt simulierte Werte.
+Die Demo ist klar als DEMO / SIMULIERT markiert.
+
+GITHUB
+------
+Frontend kann separat gespeichert/versioniert werden.
+Nicht öffentlich hochladen:
+- V7 data
+- V7 logs
+- Kontosnapshots
+- Broker-Zugangsdaten
+- Tokens/Passwörter
+- .venv
+- private Server-Konfiguration

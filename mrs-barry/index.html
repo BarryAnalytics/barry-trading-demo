@@ -1,0 +1,1013 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#041116">
+<meta name="color-scheme" content="dark">
+<title>Mrs. Barry — Personal Trading Command Center</title>
+<style>
+:root{
+  --bg:#030b10;--bg2:#07161d;--panel:#091d26;--panel2:#0d2731;--panel3:#102f3a;
+  --line:rgba(77,235,224,.15);--line2:rgba(77,235,224,.30);--text:#effffe;--muted:#8eaeb4;
+  --aqua:#43eadb;--aqua2:#12b9ad;--green:#39dd8b;--red:#ff667c;--amber:#ffc861;
+  --blue:#66a9ff;--purple:#b68bff;--shadow:0 22px 70px rgba(0,0,0,.36);--r:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 10% -6%,rgba(67,234,219,.12),transparent 31%),
+    radial-gradient(circle at 92% -4%,rgba(102,169,255,.08),transparent 29%),var(--bg)
+}
+button,input,select{font:inherit}.hidden{display:none!important}
+.good{color:var(--green)!important}.bad{color:var(--red)!important}.warn{color:var(--amber)!important}.info{color:var(--aqua)!important}.muted{color:var(--muted)!important}
+.shell{max-width:1900px;margin:auto;padding:12px 15px 90px}
+.topbar{
+  position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:15px;
+  padding:10px 2px 12px;border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(3,11,16,.98),rgba(3,11,16,.88));backdrop-filter:blur(18px)
+}
+.brand{display:flex;align-items:center;gap:12px;min-width:245px}
+.brandmark{
+  width:46px;height:51px;clip-path:polygon(50% 0,92% 18%,92% 70%,50% 100%,8% 70%,8% 18%);
+  display:grid;place-items:center;background:linear-gradient(145deg,var(--aqua),var(--aqua2));color:#021315;
+  font-size:23px;font-weight:1000;box-shadow:0 0 28px rgba(67,234,219,.30)
+}
+.brand h1{font-size:21px;line-height:1;margin:0}.brand small{display:block;color:var(--aqua);font-size:9px;margin-top:5px;letter-spacing:.05em}
+.header-center{display:flex;gap:7px;align-items:center;justify-content:center;flex-wrap:wrap}
+.badge{padding:7px 10px;border:1px solid var(--line2);border-radius:9px;background:rgba(10,31,39,.75);font-size:8px;font-weight:900;letter-spacing:.05em;white-space:nowrap}
+.badge.online{color:var(--green)}.badge.lock{color:#ff9eaa;border-color:rgba(255,102,124,.38);background:rgba(255,102,124,.08)}
+.header-right{display:flex;align-items:center;gap:8px}
+.system-pill{min-width:180px;padding:7px 10px;border:1px solid var(--line);border-radius:11px;background:rgba(9,28,36,.88);display:flex;align-items:center;gap:8px}
+.led{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 5px rgba(57,221,139,.07),0 0 15px rgba(57,221,139,.72)}
+.system-pill b{font-size:9px;display:block}.system-pill small{display:block;color:var(--muted);font-size:7px;margin-top:2px}
+.icon-btn,.btn,.tab{transition:.18s}
+.icon-btn{width:36px;height:36px;border-radius:11px;border:1px solid var(--line);background:rgba(9,28,36,.88);color:var(--text);cursor:pointer}
+.icon-btn:hover,.btn:hover,.tab:hover{border-color:rgba(67,234,219,.45);transform:translateY(-1px)}
+.navtabs{display:flex;gap:6px;margin:9px 0;overflow:auto;padding-bottom:2px}
+.tab{border:1px solid var(--line);background:rgba(9,25,33,.80);color:var(--muted);border-radius:10px;padding:8px 11px;font-size:8px;font-weight:900;cursor:pointer;white-space:nowrap}
+.tab.active{color:var(--aqua);border-color:rgba(67,234,219,.38);background:rgba(67,234,219,.07)}
+.page{display:none}.page.active{display:block}
+.card{border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(145deg,rgba(14,41,51,.94),rgba(5,20,27,.95));box-shadow:var(--shadow)}
+.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}
+.section-title{font-size:11px;font-weight:950;letter-spacing:.02em}.section-sub{font-size:8px;color:var(--muted);margin-top:3px;line-height:1.45}
+.tiny-tag{font-size:7px;padding:5px 7px;border-radius:7px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.kpis{display:grid;grid-template-columns:repeat(8,minmax(112px,1fr));gap:7px;margin-bottom:8px}
+.kpi{padding:9px 10px;min-height:72px}.kpi-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:7px}
+.kpi-value{font-size:16px;font-weight:950;margin:8px 0 2px;white-space:nowrap}.kpi-sub{font-size:7px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.profile-banner{padding:12px;margin-bottom:8px;display:grid;grid-template-columns:1.4fr .8fr;gap:10px}
+.welcome{padding:14px;border-radius:14px;border:1px solid rgba(67,234,219,.25);background:linear-gradient(135deg,rgba(67,234,219,.10),rgba(67,234,219,.025))}
+.welcome .eyebrow{color:var(--aqua);font-size:8px;text-transform:uppercase;letter-spacing:.09em;font-weight:900}
+.welcome h2{margin:7px 0 5px;font-size:22px}.welcome p{margin:0;color:#c9dfe1;font-size:10px;line-height:1.5}
+.profile-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.profile-mini{padding:10px;border-radius:11px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
+.profile-mini small{display:block;color:var(--muted);font-size:7px}.profile-mini b{display:block;margin-top:4px;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.watch-card{padding:10px;margin-bottom:8px}
+.asset-grid{display:grid;grid-template-columns:repeat(7,minmax(125px,1fr));gap:7px}
+.asset{padding:9px;border-radius:12px;border:1px solid rgba(77,235,224,.11);background:rgba(255,255,255,.021);cursor:pointer;min-width:0;transition:.18s}
+.asset:hover{border-color:rgba(67,234,219,.34)}.asset.active{border-color:rgba(67,234,219,.6);box-shadow:0 0 0 1px rgba(67,234,219,.10),0 12px 28px rgba(0,0,0,.22)}
+.asset-top{display:flex;justify-content:space-between;gap:5px}.asset-name b{font-size:10px}.asset-name small{display:block;color:var(--muted);font-size:6px;max-width:90px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.asset-price{text-align:right;font-size:10px;font-weight:900}.asset-change{font-size:7px;margin-top:2px}
+.spark{height:26px;margin:5px 0}.signal{display:grid;place-items:center;height:25px;border-radius:7px;font-size:8px;font-weight:950;letter-spacing:.03em}
+.signal.buy{color:#a1ffc4;background:rgba(57,221,139,.12);border:1px solid rgba(57,221,139,.23)}
+.signal.wait{color:#ffe09a;background:rgba(255,200,97,.09);border:1px solid rgba(255,200,97,.19)}
+.signal.sell{color:#ffb2bd;background:rgba(255,102,124,.10);border:1px solid rgba(255,102,124,.22)}
+.signal.block{color:#b6c1c7;background:rgba(142,174,180,.06);border:1px solid rgba(142,174,180,.16)}
+.command-grid{display:grid;grid-template-columns:1.55fr .95fr .68fr;gap:8px;margin-bottom:8px}
+.chart-card,.decision-card,.role-card{padding:10px}
+.chart-toolbar{display:flex;justify-content:space-between;gap:10px}.chart-price{font-size:18px;font-weight:950;text-align:right}
+.chart-wrap{height:260px;margin-top:8px;border-radius:13px;border:1px solid rgba(77,235,224,.10);background:rgba(1,10,15,.35);padding:7px}
+.chart-wrap svg{width:100%;height:100%}
+.decision-main{padding:12px;border-radius:13px;border:1px solid rgba(67,234,219,.22);background:rgba(67,234,219,.045);margin-bottom:8px}
+.decision-main small{display:block;color:var(--muted);font-size:7px}.decision-main b{display:block;font-size:25px;margin:6px 0}.decision-main p{font-size:8px;color:#c7dfe1;line-height:1.5;margin:0}
+.scoreline{height:7px;border-radius:99px;background:#06131a;overflow:hidden;margin:8px 0}.scoreline span{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--amber),var(--green));width:50%}
+.quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px}.btn{border:1px solid var(--line);border-radius:9px;background:rgba(10,28,36,.88);color:var(--text);padding:8px;font-size:8px;font-weight:900;cursor:pointer}
+.btn.primary{color:#021315;background:linear-gradient(135deg,var(--aqua),var(--aqua2));border:0}.btn.danger{color:#ffb3bd;border-color:rgba(255,102,124,.36);background:rgba(255,102,124,.08)}
+.btn.full{grid-column:1/-1}.btn[disabled]{opacity:.42;cursor:not-allowed;transform:none}
+.role-columns{display:grid;grid-template-columns:1fr 1fr;gap:7px}.role-box{padding:9px;border-radius:11px;background:rgba(255,255,255,.022);border:1px solid rgba(77,235,224,.09)}
+.role-box h4{font-size:9px;margin:0 0 7px}.role-list{display:grid;gap:6px}.role-item{font-size:7px;color:#c7dde0;line-height:1.35}.role-item b{color:var(--green)}
+.lower-grid{display:grid;grid-template-columns:1.05fr 1fr 1fr;gap:8px}
+.panel{padding:10px}
+.alloc-bars{display:grid;gap:6px}.alloc-row{display:grid;grid-template-columns:46px 1fr 54px;gap:6px;align-items:center;font-size:7px}.alloc-row span:first-child{font-weight:850}.alloc-track{height:7px;border-radius:99px;background:#051219;overflow:hidden}.alloc-track i{display:block;height:100%;background:linear-gradient(90deg,var(--aqua2),var(--aqua));border-radius:99px}.alloc-row b{text-align:right}
+.risk-list{display:grid;gap:6px}.risk-row{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:7px 8px;border-radius:9px;background:rgba(255,255,255,.022);font-size:7px}.risk-row span{color:#c3d8db}.risk-row b{font-size:7px}
+.activity{display:grid;gap:6px;max-height:180px;overflow:auto}.activity-row{padding:7px 8px;border:1px solid rgba(77,235,224,.08);border-radius:9px;background:rgba(255,255,255,.02);font-size:7px;line-height:1.4}.activity-row small{color:var(--muted)}
+.footer-note{text-align:center;color:var(--muted);font-size:7px;margin:10px 0}
+.detail-grid{display:grid;grid-template-columns:1.25fr .9fr;gap:9px}.table-card{padding:11px}.table-wrap{overflow:auto;max-height:540px}table{width:100%;border-collapse:collapse;font-size:8px}th{color:var(--muted);text-align:left;padding:8px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#091923}td{padding:9px 8px;border-bottom:1px solid rgba(77,235,224,.07);white-space:nowrap}
+.settings-groups{display:grid;gap:9px}.settings-group{padding:11px}.settings-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.setting{padding:9px;border-radius:10px;background:rgba(255,255,255,.023);border:1px solid rgba(77,235,224,.08)}
+.setting label{display:block;color:#d7e9eb;font-size:8px;font-weight:850;margin-bottom:4px}.setting input,.setting select{width:100%;border:1px solid var(--line);border-radius:8px;background:#06151d;color:var(--text);padding:8px;font-size:8px;outline:none}
+.setting input:focus,.setting select:focus{border-color:rgba(67,234,219,.55)}.help{font-size:7px;color:var(--muted);line-height:1.45;margin-top:5px}
+.setting-note{font-size:7px;color:var(--muted);line-height:1.55;padding:10px;border:1px solid rgba(255,200,97,.17);background:rgba(255,200,97,.045);border-radius:10px;margin-top:8px}
+.placeholder{color:var(--amber);font-weight:850}
+.form-actions{display:flex;justify-content:flex-end;gap:7px;margin-top:9px;flex-wrap:wrap}
+.market-editor{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.market-slot{padding:9px;border-radius:10px;border:1px solid rgba(77,235,224,.08);background:rgba(255,255,255,.02);display:grid;grid-template-columns:90px 1fr;gap:7px}
+.market-slot input{width:100%;border:1px solid var(--line);border-radius:8px;background:#06151d;color:var(--text);padding:7px;font-size:8px}
+.login-overlay{position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 50% 0%,rgba(67,234,219,.12),transparent 35%),rgba(2,8,12,.97);display:grid;place-items:center;padding:18px}
+.login-box{width:min(850px,100%);display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line2);border-radius:24px;overflow:hidden;box-shadow:0 30px 100px rgba(0,0,0,.55)}
+.login-hero{padding:28px;background:linear-gradient(145deg,#0b2630,#06171f)}.login-hero .shield{font-size:40px}.login-hero h2{font-size:31px;margin:14px 0 8px}.login-hero h2 span{color:var(--aqua)}.login-hero p{color:#c1dadd;font-size:11px;line-height:1.65}.login-points{display:grid;gap:8px;margin-top:20px}.login-point{font-size:9px;color:#cce1e3}.login-point b{color:var(--green)}
+.login-form{padding:25px;background:#07151c}.login-form h3{margin:0 0 5px;font-size:17px}.login-form>p{color:var(--muted);font-size:9px;line-height:1.5;margin:0 0 15px}.login-form .settings-grid{grid-template-columns:1fr 1fr}.login-form .setting{padding:0;border:0;background:transparent}
+.login-warning{font-size:7px;color:var(--amber);line-height:1.5;margin-top:11px;padding:8px;border:1px solid rgba(255,200,97,.17);border-radius:9px;background:rgba(255,200,97,.04)}
+.toast{position:fixed;right:17px;bottom:17px;z-index:120;max-width:360px;padding:10px 12px;border:1px solid rgba(67,234,219,.25);border-radius:10px;background:#0a2530;box-shadow:var(--shadow);font-size:8px;opacity:0;transform:translateY(18px);transition:.22s;pointer-events:none}.toast.show{opacity:1;transform:none}
+.modal{position:fixed;inset:0;display:none;place-items:center;padding:18px;background:rgba(1,7,11,.78);backdrop-filter:blur(8px);z-index:90}.modal.open{display:grid}.modal-box{width:min(560px,100%);max-height:90vh;overflow:auto;padding:15px;border:1px solid var(--line2);border-radius:17px;background:#071923;box-shadow:0 30px 80px rgba(0,0,0,.55)}.modal-actions{display:flex;justify-content:flex-end;gap:7px;margin-top:11px}
+@media(max-width:1500px){.kpis{grid-template-columns:repeat(4,1fr)}.asset-grid{grid-template-columns:repeat(4,1fr)}.command-grid{grid-template-columns:1.4fr .8fr}.role-card{grid-column:1/-1}.lower-grid{grid-template-columns:1fr 1fr}.lower-grid .panel:last-child{grid-column:1/-1}}
+@media(max-width:1050px){.header-center{display:none}.profile-banner,.command-grid,.detail-grid{grid-template-columns:1fr}.asset-grid{grid-template-columns:repeat(2,1fr)}.lower-grid{grid-template-columns:1fr}.lower-grid .panel:last-child{grid-column:auto}.settings-grid{grid-template-columns:1fr 1fr}.login-box{grid-template-columns:1fr}.login-hero{display:none}}
+@media(max-width:700px){
+ .shell{padding:9px 9px 82px}.topbar{align-items:flex-start}.brand{min-width:0}.brandmark{width:38px;height:42px}.brand h1{font-size:17px}.system-pill{min-width:0}.system-pill div{display:none}
+ .kpis{grid-template-columns:1fr 1fr}.profile-banner{padding:9px}.profile-grid{grid-template-columns:1fr 1fr}.asset-grid{grid-template-columns:1fr 1fr}.chart-wrap{height:220px}
+ .role-columns,.settings-grid,.market-editor{grid-template-columns:1fr}.market-slot{grid-template-columns:80px 1fr}.navtabs{position:fixed;left:0;right:0;bottom:0;z-index:50;margin:0;padding:7px 6px calc(7px + env(safe-area-inset-bottom));background:rgba(3,11,16,.96);border-top:1px solid var(--line);justify-content:space-around}.tab{font-size:7px;padding:8px 7px}
+ .tab[data-page="log"]{display:none}.login-form{padding:18px}.login-form .settings-grid{grid-template-columns:1fr}
+}
+
+/* === V3 readability upgrade === */
+.badge{font-size:10px;padding:8px 11px}
+.system-pill b{font-size:11px}.system-pill small{font-size:9px}
+.tab{font-size:10px;padding:9px 13px}
+.section-title{font-size:13px}
+.section-sub{font-size:10px}
+.tiny-tag{font-size:9px}
+.kpis{grid-template-columns:repeat(5,minmax(150px,1fr));gap:9px}
+.kpi{padding:12px 13px;min-height:86px}
+.kpi-top{font-size:9px}.kpi-value{font-size:20px}.kpi-sub{font-size:9px}
+.welcome .eyebrow{font-size:10px}.welcome h2{font-size:25px}.welcome p{font-size:11px}
+.profile-mini small{font-size:9px}.profile-mini b{font-size:12px}
+.asset-name b{font-size:12px}.asset-name small{font-size:8px}.asset-price{font-size:12px}.asset-change{font-size:9px}
+.signal{font-size:10px;height:29px}
+.chart-price{font-size:21px}
+.decision-main small{font-size:9px}.decision-main b{font-size:29px}.decision-main p{font-size:10px}
+.btn{font-size:10px;padding:9px 10px}
+.role-box h4{font-size:11px}.role-item{font-size:9px}
+.alloc-row,.risk-row,.activity-row{font-size:9px}
+.risk-row b{font-size:9px}
+.activity-row small{font-size:8px}
+table{font-size:10px}th,td{padding:10px 9px}
+.setting label{font-size:10px}.setting input,.setting select{font-size:10px;padding:9px}
+.help{font-size:9px}.setting-note{font-size:9px}
+.footer-note{font-size:9px}
+.results-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.result-box{padding:12px;border:1px solid rgba(77,235,224,.10);border-radius:11px;background:rgba(255,255,255,.022)}
+.result-box small{display:block;color:var(--muted);font-size:9px}
+.result-box b{display:block;font-size:18px;margin-top:6px}
+.exit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.exit-box{padding:11px;border:1px solid rgba(77,235,224,.10);border-radius:11px;background:rgba(255,255,255,.022)}
+.exit-box h4{margin:0 0 6px;font-size:11px}
+.exit-box p{margin:0;color:#c7dde0;font-size:9px;line-height:1.5}
+@media(max-width:1050px){.kpis{grid-template-columns:repeat(3,1fr)}.results-grid{grid-template-columns:1fr 1fr}.exit-grid{grid-template-columns:1fr}}
+@media(max-width:700px){.kpis{grid-template-columns:1fr 1fr}.results-grid{grid-template-columns:1fr 1fr}}
+
+
+/* === V4 neon live effects edition === */
+body::before,body::after{
+  content:"";position:fixed;inset:auto;pointer-events:none;z-index:0;filter:blur(40px);opacity:.55;
+}
+body::before{
+  width:34vw;height:34vw;left:-8vw;top:8vh;border-radius:50%;
+  background:radial-gradient(circle,rgba(67,234,219,.18),rgba(67,234,219,0) 65%);
+  animation:floatGlow1 12s ease-in-out infinite;
+}
+body::after{
+  width:28vw;height:28vw;right:-6vw;top:18vh;border-radius:50%;
+  background:radial-gradient(circle,rgba(102,169,255,.16),rgba(102,169,255,0) 68%);
+  animation:floatGlow2 15s ease-in-out infinite;
+}
+@keyframes floatGlow1{
+  0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(4vw,-2vh) scale(1.12)}
+}
+@keyframes floatGlow2{
+  0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(-3vw,3vh) scale(1.15)}
+}
+.shell{position:relative;z-index:1}
+.chart-wrap{
+  position:relative;
+  box-shadow:inset 0 0 0 1px rgba(67,234,219,.05), 0 0 24px rgba(67,234,219,.08);
+}
+.chart-wrap::after{
+  content:"";position:absolute;left:8%;right:8%;bottom:8px;height:38px;border-radius:50%;
+  background:radial-gradient(ellipse at center, rgba(67,234,219,.22), rgba(67,234,219,0) 72%);
+  filter:blur(12px);pointer-events:none;animation:chartAura 4.5s ease-in-out infinite;
+}
+@keyframes chartAura{
+  0%,100%{opacity:.45;transform:scaleX(.96)}
+  50%{opacity:.95;transform:scaleX(1.04)}
+}
+#mainChart polyline{
+  filter:drop-shadow(0 0 8px rgba(67,234,219,.55)) drop-shadow(0 0 14px rgba(67,234,219,.28));
+  animation:liveLinePulse 3.2s ease-in-out infinite;
+}
+@keyframes liveLinePulse{
+  0%,100%{filter:drop-shadow(0 0 8px rgba(67,234,219,.55)) drop-shadow(0 0 14px rgba(67,234,219,.28))}
+  50%{filter:drop-shadow(0 0 12px rgba(67,234,219,.78)) drop-shadow(0 0 18px rgba(67,234,219,.42))}
+}
+.asset,.kpi,.panel,.setting,.profile-mini,.role-box,.result-box,.exit-box{
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+}
+.asset:hover,.setting:hover,.profile-mini:hover,.role-box:hover,.result-box:hover,.exit-box:hover{
+  box-shadow:0 0 0 1px rgba(67,234,219,.10),0 12px 30px rgba(0,0,0,.24),0 0 22px rgba(67,234,219,.08);
+}
+.sound-panel{
+  min-width:240px;padding:7px 10px;border:1px solid var(--line);border-radius:12px;
+  background:rgba(9,28,36,.88);display:flex;align-items:center;gap:10px;
+}
+.sound-status{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.sound-dot{
+  width:8px;height:8px;border-radius:50%;background:#43eadb;
+  box-shadow:0 0 10px rgba(67,234,219,.7),0 0 0 5px rgba(67,234,219,.08);
+  animation:soundPulse 2s ease-in-out infinite;
+}
+@keyframes soundPulse{
+  0%,100%{transform:scale(1);opacity:.85}
+  50%{transform:scale(1.35);opacity:1}
+}
+.sound-label{font-size:10px;font-weight:900}
+.sound-sub{font-size:8px;color:var(--muted)}
+.sound-panel input[type=range]{width:95px}
+.effects-toggle{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 8px;border-radius:9px;
+  border:1px solid rgba(67,234,219,.18);background:rgba(67,234,219,.05);font-size:9px;font-weight:900;
+}
+.effects-toggle.off{color:var(--muted);border-color:rgba(142,174,180,.18);background:rgba(255,255,255,.03)}
+.ambient-note{
+  display:inline-flex;align-items:center;gap:4px;color:var(--muted);font-size:8px;white-space:nowrap;
+}
+@media(max-width:1050px){.sound-panel{min-width:0;flex-wrap:wrap;justify-content:flex-start}.header-right{flex-wrap:wrap;justify-content:flex-end}}
+@media(max-width:700px){.sound-panel{width:100%}.header-right{width:100%;justify-content:space-between}.sound-panel input[type=range]{width:78px}}
+
+
+body.effects-off::before,body.effects-off::after,.effects-off .chart-wrap::after{display:none!important}
+.effects-off #mainChart polyline{animation:none!important;filter:none!important}
+.effects-off .sound-dot{animation:none}
+
+</style>
+</head>
+<body>
+
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <div class="login-hero">
+      <div class="shield">🛡️</div>
+      <h2>Welcome to <span>Mrs. Barry</span></h2>
+      <p>A personal demo trading assistant designed to make market monitoring, capital rules and risk controls easy to understand on both laptop and smartphone.</p>
+      <div class="login-points">
+        <div class="login-point"><b>✓</b> Personal profile and preferred currency</div>
+        <div class="login-point"><b>✓</b> Seven configurable markets</div>
+        <div class="login-point"><b>✓</b> BUY NOW · WAIT · SELL NOW · BLOCKED</div>
+        <div class="login-point"><b>✓</b> Profit Vault and manual-withdrawal safety</div>
+        <div class="login-point"><b>✓</b> Detailed capital and risk settings</div>
+      </div>
+    </div>
+    <div class="login-form">
+      <h3>Personal Demo Access</h3>
+      <p>Enter the profile details you want displayed in this demo. You can edit them later under Profile.</p>
+      <div class="settings-grid">
+        <div class="setting"><label>First name</label><input id="loginFirst" placeholder="First name"></div>
+        <div class="setting"><label>Last name</label><input id="loginLast" placeholder="Last name"></div>
+        <div class="setting"><label>Email</label><input id="loginEmail" type="email" placeholder="name@example.com"></div>
+        <div class="setting"><label>Country</label><input id="loginCountry" value="Kenya"></div>
+        <div class="setting"><label>Account currency</label><select id="loginAccountCurrency"><option>USD</option><option>EUR</option><option>GBP</option><option>AUD</option><option>CAD</option><option>CHF</option><option>JPY</option></select></div>
+        <div class="setting"><label>Preferred display currency</label><select id="loginDisplayCurrency"><option>KES</option><option>USD</option><option>EUR</option><option>GBP</option></select></div>
+      </div>
+      <div class="login-warning">Demo only: this is a local profile screen, not secure online authentication. Do not enter broker passwords, 2FA codes, bank details, passport details, date of birth or other sensitive identity information.</div>
+      <div class="form-actions"><button class="btn primary" id="enterDemo">ENTER MRS. BARRY</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="shell">
+<header class="topbar">
+  <div class="brand"><div class="brandmark">MB</div><div><h1 id="brandName">Mrs. Barry</h1><small>PERSONAL TRADING COMMAND CENTER</small></div></div>
+  <div class="header-center"><span class="badge">PERSONAL DEMO</span><span class="badge">PEPPERSTONE / MT5 READY</span><span class="badge lock">🔒 LIVE LOCKED</span><span class="badge">MOBILE + LAPTOP</span></div>
+  <div class="header-right">
+    <div class="sound-panel">
+      <div class="sound-status">
+        <span class="sound-dot"></span>
+        <div>
+          <div class="sound-label" id="soundStateLabel">SOUND ON</div>
+          <div class="sound-sub">Background ambience</div>
+        </div>
+      </div>
+      <button class="btn" id="soundToggleBtn" type="button">ON</button>
+      <label class="ambient-note" for="soundVolume">VOLUME</label>
+      <input id="soundVolume" type="range" min="0" max="100" step="1" value="45">
+      <button class="effects-toggle" id="effectsToggleBtn" type="button">✨ EFFECTS ON</button>
+    </div>
+    <div class="system-pill"><span class="led"></span><div><b id="systemHeadline">Demo System Online</b><small id="systemSub">Local simulation · broker not connected</small></div></div>
+    <button class="icon-btn" id="profileTop" title="Profile">👤</button>
+  </div>
+</header>
+
+<nav class="navtabs">
+  <button class="tab active" data-page="overview">DASHBOARD</button>
+  <button class="tab" data-page="positions">POSITIONS</button>
+  <button class="tab" data-page="capital">CAPITAL & RISK</button>
+  <button class="tab" data-page="profile">PROFILE</button>
+  <button class="tab" data-page="settings">SETTINGS</button>
+  <button class="tab" data-page="log">ACTIVITY</button>
+</nav>
+
+<section class="page active" id="page-overview">
+  <article class="card profile-banner">
+    <div class="welcome">
+      <div class="eyebrow">Personal trading assistant</div>
+      <h2 id="welcomeName">Welcome, Mrs. Barry</h2>
+      <p>Mrs. Barry monitors your selected markets, protects the capital rules you define and can tell you when conditions suggest BUY NOW, WAIT, SELL NOW or BLOCKED.</p>
+    </div>
+    <div class="profile-grid">
+      <div class="profile-mini"><small>Broker</small><b id="miniBroker">Pepperstone</b></div>
+      <div class="profile-mini"><small>Platform</small><b id="miniPlatform">MetaTrader 5</b></div>
+      <div class="profile-mini"><small>Account currency</small><b id="miniAccountCurrency">USD</b></div>
+      <div class="profile-mini"><small>Display currency</small><b id="miniDisplayCurrency">KES</b></div>
+      <div class="profile-mini"><small>Funding method</small><b id="miniFundingMethod">M-PESA</b></div>
+    </div>
+  </article>
+
+  <div class="kpis" id="kpiGrid"></div>
+
+  <article class="card panel" style="margin-bottom:8px">
+    <div class="section-head">
+      <div>
+        <div class="section-title">TOTAL PROFIT & LOSS</div>
+        <div class="section-sub">A single place to see realised profit, realised loss, open P&amp;L and the combined demo result.</div>
+      </div>
+      <span class="tiny-tag">ALL RESULTS</span>
+    </div>
+    <div class="results-grid" id="resultsGrid"></div>
+  </article>
+
+  <article class="card watch-card">
+    <div class="section-head"><div><div class="section-title">SEVEN MARKETS · MONITORED INDEPENDENTLY</div><div class="section-sub">Mrs. Barry may monitor all seven but does not have to invest in all seven. Cash is a valid decision.</div></div><span class="tiny-tag">FLEXIBLE SELECTION</span></div>
+    <div class="asset-grid" id="assetGrid"></div>
+  </article>
+
+  <div class="command-grid">
+    <article class="card chart-card">
+      <div class="chart-toolbar"><div><div class="section-title"><span id="selectedSymbol">EUR/USD</span> · <span id="selectedName">Euro vs US Dollar</span></div><div class="section-sub">Simulated movement for learning. Real broker data will replace this after the MT5 connection.</div></div><div><div class="chart-price" id="selectedPrice">–</div><div class="section-sub"><span id="selectedChange">–</span> · demo feed</div></div></div>
+      <div class="chart-wrap"><svg id="mainChart" viewBox="0 0 900 300" preserveAspectRatio="none"></svg></div>
+    </article>
+
+    <article class="card decision-card">
+      <div class="section-head"><div><div class="section-title">CURRENT ROBOT DECISION</div><div class="section-sub">A trade is never forced just because capital is available.</div></div><span class="tiny-tag" id="scoreTag">SCORE 50%</span></div>
+      <div class="decision-main"><small>SELECTED MARKET</small><b id="decisionLabel" class="warn">WAIT</b><p id="decisionReason">The market does not meet the configured entry conditions yet.</p><div class="scoreline"><span id="scoreBar"></span></div></div>
+      <div class="quick-actions">
+        <button class="btn primary" id="buyBtn">BUY DEMO</button><button class="btn" id="waitBtn">WAIT</button>
+        <button class="btn danger" id="sellBtn">SELL DEMO</button><button class="btn full" id="closeSelectedBtn">CLOSE SELECTED POSITION</button>
+      </div>
+    </article>
+
+    <article class="card role-card">
+      <div class="section-head"><div><div class="section-title">WHO DOES WHAT?</div><div class="section-sub">Clear separation between the robot and the owner.</div></div></div>
+      <div class="role-columns">
+        <div class="role-box"><h4>🤖 MRS. BARRY DOES</h4><div class="role-list">
+          <div class="role-item"><b>✓</b> Monitor selected markets</div><div class="role-item"><b>✓</b> Calculate BUY / WAIT / SELL</div>
+          <div class="role-item"><b>✓</b> Allocate only allowed capital</div><div class="role-item"><b>✓</b> Manage stop / target / trailing rules</div>
+          <div class="role-item"><b>✓</b> Track profit, loss and cooldowns</div><div class="role-item"><b>✓</b> Notify when profit target is reached</div>
+        </div></div>
+        <div class="role-box"><h4>👤 YOU DO</h4><div class="role-list">
+          <div class="role-item"><b>✓</b> Choose capital and risk limits</div><div class="role-item"><b>✓</b> Choose markets or Auto Select</div>
+          <div class="role-item"><b>✓</b> Approve trades if confirmation mode is on</div><div class="role-item"><b>✓</b> Deposit funds in the broker portal</div>
+          <div class="role-item"><b>✓</b> Approve withdrawals yourself</div><div class="role-item"><b>✓</b> Activate Live only after testing</div>
+        </div></div>
+      </div>
+    </article>
+  </div>
+
+  <div class="lower-grid">
+    <article class="card panel">
+      <div class="section-head"><div><div class="section-title">CAPITAL ALLOCATION</div><div class="section-sub">Dynamic, risk-weighted and never forced.</div></div><span class="tiny-tag">PROFIT VAULT SEPARATE</span></div>
+      <div class="alloc-bars" id="allocationList"></div>
+    </article>
+    <article class="card panel">
+      <div class="section-head"><div><div class="section-title">RISK GUARD</div><div class="section-sub">The robot checks these rules before every new demo trade.</div></div><span class="tiny-tag good">ACTIVE</span></div>
+      <div class="risk-list" id="riskList"></div>
+    </article>
+    <article class="card panel">
+      <div class="section-head"><div><div class="section-title">RECENT ACTIVITY</div><div class="section-sub">Signals, demo trades and safety decisions.</div></div><button class="btn" id="exportLogBtn">EXPORT</button></div>
+      <div class="activity" id="activityList"></div>
+    </article>
+  </div>
+
+  <article class="card panel" style="margin-top:8px">
+    <div class="section-head">
+      <div>
+        <div class="section-title">WHEN MAY MRS. BARRY SELL OR CLOSE A POSITION?</div>
+        <div class="section-sub">SELL NOW and CLOSE POSITION are different actions. The rules below make that distinction visible.</div>
+      </div>
+      <span class="tiny-tag">EXIT RULES</span>
+    </div>
+    <div class="exit-grid" id="exitRules"></div>
+  </article>
+
+  <div class="footer-note">Mrs. Barry · Personal demo simulation · No real broker connection · No profit guarantee · Live withdrawals remain manual</div>
+</section>
+
+<section class="page" id="page-positions">
+  <div class="detail-grid">
+    <article class="card table-card"><div class="section-head"><div><div class="section-title">OPEN DEMO POSITIONS</div><div class="section-sub">Each position has its own entry, stop, target and live demo result.</div></div><span class="tiny-tag" id="openCountTag">0 OPEN</span></div><div class="table-wrap"><table><thead><tr><th>Market</th><th>Side</th><th>Capital</th><th>Entry</th><th>Current</th><th>Stop</th><th>Target</th><th>P&amp;L</th><th>Action</th></tr></thead><tbody id="positionsRows"></tbody></table></div></article>
+    <article class="card table-card"><div class="section-head"><div><div class="section-title">CLOSED TRADE SUMMARY</div><div class="section-sub">Profit goes to the Profit Vault unless reinvestment is explicitly enabled.</div></div></div><div class="risk-list" id="closedSummary"></div></article>
+  </div>
+</section>
+
+<section class="page" id="page-capital">
+  <div class="detail-grid">
+    <article class="card table-card"><div class="section-head"><div><div class="section-title">CAPITAL & RISK OVERVIEW</div><div class="section-sub">A readable explanation of the settings that control Mrs. Barry.</div></div><button class="btn primary" data-goto="settings">EDIT SETTINGS</button></div><div class="risk-list" id="capitalRules"></div></article>
+    <article class="card table-card"><div class="section-head"><div><div class="section-title">PROFIT VAULT & WITHDRAWAL</div><div class="section-sub">Trading automation and money withdrawal are intentionally separated.</div></div></div><div class="risk-list" id="moneyRules"></div><div class="setting-note"><b>Safety rule:</b> Mrs. Barry may track a withdrawal target and notify the owner. The robot must not store bank credentials or autonomously send money to a bank account. The owner performs the withdrawal inside the official broker portal.</div></article>
+  </div>
+</section>
+
+<section class="page" id="page-profile">
+  <article class="card settings-group">
+    <div class="section-head"><div><div class="section-title">PERSONAL PROFILE</div><div class="section-sub">Only information useful for the dashboard is requested. Sensitive identity information is intentionally excluded.</div></div><span class="tiny-tag placeholder">EDITABLE PLACEHOLDERS</span></div>
+    <div class="settings-grid">
+      <div class="setting"><label>Robot name</label><input id="pRobot"><div class="help">Name shown in the interface. Default: Mrs. Barry.</div></div>
+      <div class="setting"><label>First name</label><input id="pFirst"><div class="help">Used only for the welcome message.</div></div>
+      <div class="setting"><label>Last name</label><input id="pLast"><div class="help">Optional in the demo interface.</div></div>
+      <div class="setting"><label>Email</label><input id="pEmail" type="email"><div class="help">Local demo profile only. Real login later needs a secure backend.</div></div>
+      <div class="setting"><label>Country</label><input id="pCountry"><div class="help">Used for localisation and future broker/currency rules. Kenya is already suitable for KES display and M-PESA as a future preferred funding method.</div></div>
+      <div class="setting"><label>Broker</label><input id="pBroker"><div class="help">Current placeholder: Pepperstone.</div></div>
+      <div class="setting"><label>Trading platform</label><select id="pPlatform"><option>MetaTrader 5</option><option>Pepperstone Web Platform</option><option>Other</option></select><div class="help">The real robot connection is planned through MT5.</div></div>
+      <div class="setting"><label>Account currency</label><select id="pAccountCurrency"><option>USD</option><option>EUR</option><option>GBP</option><option>AUD</option><option>CAD</option><option>CHF</option><option>JPY</option></select><div class="help">Must later match the actual broker account currency.</div></div>
+      <div class="setting"><label>Preferred display currency</label><select id="pDisplayCurrency"><option>KES</option><option>USD</option><option>EUR</option><option>GBP</option></select><div class="help">KES can be used as a personal display currency even if the broker account is in USD.</div></div>
+      <div class="setting"><label>Preferred funding method</label><select id="pFundingMethod"><option>M-PESA</option><option>Debit / Credit Card</option><option>Bank Transfer</option><option>PayPal</option><option>Skrill</option><option>Neteller</option><option>Other</option></select><div class="help">This is informational only. It does not move money. Funding and withdrawals still happen in the official broker portal.</div></div>
+      <div class="setting"><label>Display FX rate</label><input id="pFx" type="number" min=".0001" step=".0001"><div class="help">Demo-only conversion rate. Later this can come from a live FX source.</div></div>
+      <div class="setting"><label>Official broker portal URL</label><input id="pBrokerUrl" placeholder="https://..."><div class="help">When saved, the “OPEN OFFICIAL BROKER PORTAL” button opens this exact HTTPS address in a new browser tab. It does not transmit profile data, connect the robot, deposit money or log in automatically.</div></div>
+      <div class="setting"><label>Profile status</label><select id="pStatus"><option value="draft">Draft / placeholders</option><option value="demo">Ready for demo use</option></select><div class="help"><b>Draft / placeholders</b> = details are not final. <b>Ready for demo use</b> = the demo profile is configured. Neither option activates live trading.</div></div>
+    </div>
+    <div class="setting-note"><b>Privacy:</b> bank-account fields are intentionally not included. Do not enter date of birth, birth name, passport details, bank details, broker password or 2FA codes here. Funding and withdrawals belong in the official broker portal.</div>
+    <div class="form-actions"><button class="btn" id="openBrokerBtn">OPEN OFFICIAL BROKER PORTAL</button><button class="btn" id="clearProfileBtn">CLEAR PERSONAL PROFILE</button><button class="btn primary" id="saveProfileBtn">SAVE PROFILE</button></div>
+  </article>
+</section>
+
+<section class="page" id="page-settings">
+  <div class="settings-groups">
+    <article class="card settings-group">
+      <div class="section-head"><div><div class="section-title">1 · CAPITAL & ALLOCATION</div><div class="section-sub">How much money Mrs. Barry is allowed to use and how much must remain untouched.</div></div><span class="tiny-tag">OWNER CONTROL</span></div>
+      <div class="settings-grid">
+        <div class="setting"><label>Strategy capital</label><input id="sCapital" type="number" min="10" step="10"><div class="help">The maximum capital Mrs. Barry is allowed to treat as trading capital. Extra broker cash does not automatically increase this value.</div></div>
+        <div class="setting"><label>Minimum cash reserve</label><input id="sReserve" type="number" min="0" step="1"><div class="help">Capital intentionally kept uninvested. This gives the robot room to avoid using the full account balance.</div></div>
+        <div class="setting"><label>Maximum open positions</label><input id="sMaxPositions" type="number" min="1" max="7" step="1"><div class="help">Maximum number of simultaneous positions across the seven markets.</div></div>
+        <div class="setting"><label>Maximum capital per position</label><input id="sMaxPositionCapital" type="number" min="1" step="1"><div class="help">Caps how much strategy capital one market may receive.</div></div>
+        <div class="setting"><label>Market selection mode</label><select id="sSelectionMode"><option value="auto">Auto Select — robot chooses best market</option><option value="owner">Owner Selection — only chosen markets</option><option value="recommend">Recommendation Only — owner confirms</option></select><div class="help">All seven may stay visible even when only one or two are eligible for a trade.</div></div>
+        <div class="setting"><label>Equal allocation required</label><select id="sEqualAllocation"><option value="false">No — dynamic allocation</option><option value="true">Yes — equal split</option></select><div class="help">Dynamic allocation allows risky or weak markets to receive zero capital.</div></div>
+      </div>
+    </article>
+
+    <article class="card settings-group">
+      <div class="section-head"><div><div class="section-title">2 · RISK PROTECTION</div><div class="section-sub">Hard limits that can block new trades or close positions when risk becomes too high.</div></div><span class="tiny-tag good">RISK GUARD</span></div>
+      <div class="settings-grid">
+        <div class="setting"><label>Maximum loss per position</label><input id="sRiskTrade" type="number" min=".1" step=".1"><div class="help">Maximum planned loss for one trade before the position should be closed.</div></div>
+        <div class="setting"><label>Maximum open portfolio risk</label><input id="sPortfolioRisk" type="number" min=".1" step=".1"><div class="help">Combined estimated risk of all open positions.</div></div>
+        <div class="setting"><label>Portfolio emergency open-loss limit</label><input id="sEmergencyLoss" type="number" min=".1" step=".1"><div class="help">If total open loss reaches this amount, the demo emergency rule may close all positions.</div></div>
+        <div class="setting"><label>Daily loss stop</label><input id="sDailyStop" type="number" min=".1" step=".1"><div class="help">After this realised daily loss, no new trades are allowed for the rest of the demo day.</div></div>
+        <div class="setting"><label>Weekly loss stop</label><input id="sWeeklyStop" type="number" min=".1" step=".1"><div class="help">Weekly safety limit. New entries are blocked when reached.</div></div>
+        <div class="setting"><label>Maximum total drawdown</label><input id="sMaxDrawdown" type="number" min=".1" step=".1"><div class="help">Longer-term protection against the strategy losing too much of its capital.</div></div>
+        <div class="setting"><label>Maximum new trades per day</label><input id="sMaxTradesDay" type="number" min="1" max="20" step="1"><div class="help">Prevents excessive trading even when many signals appear.</div></div>
+        <div class="setting"><label>Maximum consecutive losses</label><input id="sMaxConsecutiveLosses" type="number" min="1" max="20" step="1"><div class="help">After this many losses in a row, the robot pauses new entries.</div></div>
+        <div class="setting"><label>Emergency Stop</label><select id="sEmergencyEnabled"><option value="true">Enabled</option><option value="false">Disabled in demo</option></select><div class="help">Recommended to remain enabled.</div></div>
+      </div>
+    </article>
+
+    <article class="card settings-group">
+      <div class="section-head"><div><div class="section-title">3 · ENTRY, EXIT & PROFIT PROTECTION</div><div class="section-sub">Defines when the robot is allowed to enter and how it protects a profitable or losing position.</div></div><span class="tiny-tag">STRATEGY PLACEHOLDERS</span></div>
+      <div class="settings-grid">
+        <div class="setting"><label>Minimum signal score for entry (%)</label><input id="sMinScore" type="number" min="50" max="99" step="1"><div class="help">Higher values mean Mrs. Barry waits for stronger conditions before opening a trade.</div></div>
+        <div class="setting"><label>Maximum spread (%)</label><input id="sMaxSpread" type="number" min=".01" max="5" step=".01"><div class="help">Blocks trades when transaction spread becomes too expensive.</div></div>
+        <div class="setting"><label>Base Stop Loss (%)</label><input id="sStopPct" type="number" min=".1" max="20" step=".1"><div class="help">Initial price distance used to protect a new position.</div></div>
+        <div class="setting"><label>First profit target (%)</label><input id="sTargetPct" type="number" min=".1" max="50" step=".1"><div class="help">Initial profit level at which Mrs. Barry may close or switch to profit protection.</div></div>
+        <div class="setting"><label>Trailing profit protection</label><select id="sTrailing"><option value="true">Enabled</option><option value="false">Disabled</option></select><div class="help">When enabled, the robot can let a winning trade continue while protecting part of the gain.</div></div>
+        <div class="setting"><label>Trailing protection distance (%)</label><input id="sTrailingDistance" type="number" min=".1" max="10" step=".1"><div class="help">After the first profit target is reached, this controls how far price may move back from the best price before the position closes.</div></div>
+        <div class="setting"><label>Close on strong opposite signal</label><select id="sCloseOpposite"><option value="true">Enabled</option><option value="false">Disabled</option></select><div class="help">Example: a BUY position may close if the robot later confirms a strong SELL signal. This closes the position; it does not automatically open a short trade.</div></div>
+        <div class="setting"><label>Pause after profit (minutes)</label><input id="sWinCooldown" type="number" min="0" max="1440" step="5"><div class="help">Prevents immediately chasing another trade after a profitable exit.</div></div>
+        <div class="setting"><label>Pause after loss (minutes)</label><input id="sLossCooldown" type="number" min="0" max="1440" step="5"><div class="help">Usually longer than the profit pause to reduce revenge trading behaviour.</div></div>
+        <div class="setting"><label>Short / Sell trades</label><select id="sShorts"><option value="true">Allowed in demo</option><option value="false">Disabled</option></select><div class="help">For CFDs, SELL can open a short position. Keep disabled if she only wants long trades.</div></div>
+        <div class="setting"><label>Overnight positions</label><select id="sOvernight"><option value="true">Allowed</option><option value="false">Close before overnight</option></select><div class="help">This should match her own preference and the instrument's trading conditions.</div></div>
+      </div>
+    </article>
+
+    <article class="card settings-group">
+      <div class="section-head"><div><div class="section-title">4 · PROFIT VAULT & OWNER APPROVAL</div><div class="section-sub">Profits can be tracked separately from the strategy capital.</div></div><span class="tiny-tag warn">WITHDRAWAL MANUAL</span></div>
+      <div class="settings-grid">
+        <div class="setting"><label>Profit auto-reinvestment</label><select id="sReinvest"><option value="false">OFF — keep profit separate</option><option value="true">ON — demo only</option></select><div class="help">OFF means profits go to the Profit Vault and do not automatically increase the strategy capital.</div></div>
+        <div class="setting"><label>Profit notification target</label><input id="sProfitNotify" type="number" min="1" step="1"><div class="help">When the Profit Vault reaches this amount, Mrs. Barry can notify the owner to review a manual withdrawal.</div></div>
+        <div class="setting"><label>Capital increase</label><select id="sCapitalApproval"><option value="true">Manual owner approval required</option><option value="false">Allow demo auto-increase</option></select><div class="help">Recommended: additional deposits should not automatically change strategy capital.</div></div>
+        <div class="setting"><label>Automatic bank withdrawal</label><select disabled><option>DISABLED — OWNER ONLY</option></select><div class="help">Locked for safety. The owner performs real withdrawals in the official broker portal.</div></div>
+        <div class="setting"><label>Trade execution mode</label><select id="sExecution"><option value="signal">Signal Only</option><option value="confirm">Confirmation Required</option><option value="auto">Full Auto Demo</option></select><div class="help">Start with Signal or Confirmation mode before autonomous demo trading.</div></div>
+        <div class="setting"><label>Live trading</label><select disabled><option>BLOCKED IN THIS HTML</option></select><div class="help">Real live trading requires the secure MT5/EA/backend layer and separate explicit activation.</div></div>
+      </div>
+      <div class="setting-note"><b>Current status:</b> all values in this section are demo configuration values. They are not broker instructions until a secure Pepperstone/MT5 connection is developed and tested.</div>
+    </article>
+
+    <article class="card settings-group">
+      <div class="section-head"><div><div class="section-title">5 · SEVEN MARKET SLOTS</div><div class="section-sub">These are editable demo placeholders. Replace them later with the exact symbols she wants Mrs. Barry to monitor.</div></div><span class="tiny-tag placeholder">PLACEHOLDERS</span></div>
+      <div class="market-editor" id="marketEditor"></div>
+      <div class="form-actions"><button class="btn" id="resetSettingsBtn">RESET DEMO SETTINGS</button><button class="btn primary" id="saveSettingsBtn">SAVE ALL SETTINGS</button></div>
+    </article>
+  </div>
+</section>
+
+<section class="page" id="page-log">
+  <article class="card table-card"><div class="section-head"><div><div class="section-title">DECISION & TRADE ACTIVITY</div><div class="section-sub">Stored locally in this browser for the demo.</div></div><div><button class="btn" id="clearLogBtn">CLEAR LOG</button></div></div><div class="table-wrap"><table><thead><tr><th>Time</th><th>Type</th><th>Market</th><th>Decision</th><th>Amount</th><th>Result</th><th>Reason</th></tr></thead><tbody id="logRows"></tbody></table></div></article>
+</section>
+</div>
+
+<div class="modal" id="confirmModal"><div class="modal-box">
+  <div class="section-head"><div><div class="section-title" id="confirmTitle">CONFIRM DEMO TRADE</div><div class="section-sub">This cannot place a real broker order.</div></div><button class="btn" data-close="confirmModal">CLOSE</button></div>
+  <div id="confirmBody" class="setting-note"></div>
+  <div class="modal-actions"><button class="btn" data-close="confirmModal">CANCEL</button><button class="btn primary" id="confirmTradeBtn">CONFIRM DEMO TRADE</button></div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+const $$=q=>[...document.querySelectorAll(q)];
+const storeKey='mrsBarryCommandCenterV2';
+
+const defaultMarkets=[
+ {s:'EUR/USD',n:'Euro vs US Dollar',base:1.15131,d:5,phase:.2},
+ {s:'GBP/USD',n:'British Pound vs US Dollar',base:1.34467,d:5,phase:1.0},
+ {s:'USD/CHF',n:'US Dollar vs Swiss Franc',base:.90291,d:5,phase:1.8},
+ {s:'USD/JPY',n:'US Dollar vs Japanese Yen',base:160.650,d:3,phase:2.5},
+ {s:'XAU/USD',n:'Gold vs US Dollar',base:4077.87,d:2,phase:3.1},
+ {s:'NAS100',n:'US Tech 100 Index',base:28345.5,d:1,phase:3.8},
+ {s:'GER40',n:'Germany 40 Index',base:25698.1,d:1,phase:4.4}
+];
+const defaults={
+ profile:{robot:'Mrs. Barry',first:'',last:'',email:'',country:'Kenya',broker:'Pepperstone',platform:'MetaTrader 5',accountCurrency:'USD',displayCurrency:'KES',fundingMethod:'M-PESA',fxRate:130,brokerUrl:'',status:'draft'},
+ settings:{
+  capital:100,reserve:25,maxPositions:1,maxPositionCapital:50,selectionMode:'auto',equalAllocation:false,
+  maxRiskPerPosition:2,maxOpenPortfolioRisk:3,emergencyOpenLoss:5,dailyStop:5,weeklyStop:10,maxDrawdown:20,maxTradesPerDay:3,maxConsecutiveLosses:2,emergencyEnabled:true,
+  minScore:72,maxSpread:.30,stopPct:1,targetPct:1.5,trailing:true,trailingDistancePct:.4,closeOnOppositeSignal:true,winCooldown:30,lossCooldown:60,shorts:true,overnight:true,
+  reinvest:false,profitNotify:100,capitalApproval:true,execution:'confirm'
+ },
+ markets:defaultMarkets.map(x=>({s:x.s,n:x.n})),
+ selected:0,stopped:false,profitVault:0,realizedLoss:0,tradesToday:0,consecutiveLosses:0,soundOn:true,soundVolume:45,effectsOn:true,lastDecisionLabel:'',positions:[],history:[],log:[]
+};
+const saved=JSON.parse(localStorage.getItem(storeKey)||'{}');
+const state={
+ ...defaults,...saved,
+ profile:{...defaults.profile,...(saved.profile||{})},
+ settings:{...defaults.settings,...(saved.settings||{})},
+ markets:Array.isArray(saved.markets)&&saved.markets.length===7?saved.markets:defaults.markets,
+ positions:Array.isArray(saved.positions)?saved.positions:[],
+ history:Array.isArray(saved.history)?saved.history:[],
+ log:Array.isArray(saved.log)?saved.log:[]
+};
+
+const runtimeMarkets=defaultMarkets.map((d,i)=>({...d,s:state.markets[i].s||d.s,n:state.markets[i].n||d.n,p:d.base,series:[]}));
+runtimeMarkets.forEach((m,i)=>{let v=m.base;for(let k=0;k<85;k++){v=Math.max(.0001,v*(1+(Math.sin(k/8+m.phase)*.00016)+(Math.random()-.5)*.0008));m.series.push(v)}m.p=v});
+
+const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
+const fmt=(m,v=m.p)=>Number(v).toFixed(m.d);
+const money=v=>new Intl.NumberFormat('en-US',{style:'currency',currency:state.profile.accountCurrency||'USD',maximumFractionDigits:2}).format(Number(v||0));
+const displayMoney=v=>{
+ const c=state.profile.displayCurrency||state.profile.accountCurrency||'USD';
+ let val=Number(v||0);
+ if(c!==state.profile.accountCurrency)val*=Number(state.profile.fxRate||1);
+ try{return new Intl.NumberFormat('en-US',{style:'currency',currency:c,maximumFractionDigits:2}).format(val)}catch{return c+' '+val.toFixed(2)}
+};
+const stamp=()=>new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+
+let audioCtx=null;
+let audioStarted=false;
+function ensureAudio(){
+ if(audioStarted)return;
+ try{
+  audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+  audioStarted=true;
+  setSoundUi();
+ }catch(e){}
+}
+function gainValue(){return (Number(state.soundVolume||45)/100)*0.055}
+function playTone(freq,duration,type,volScale){
+ if(!state.soundOn)return;
+ ensureAudio();
+ if(!audioCtx)return;
+ const now=audioCtx.currentTime;
+ const osc=audioCtx.createOscillator();
+ const gain=audioCtx.createGain();
+ osc.type=type||'sine';
+ osc.frequency.value=freq||440;
+ gain.gain.setValueAtTime(0.0001,now);
+ gain.gain.exponentialRampToValueAtTime(Math.max(0.0001,gainValue()*(volScale||1)),now+.02);
+ gain.gain.exponentialRampToValueAtTime(0.0001,now+duration);
+ osc.connect(gain);gain.connect(audioCtx.destination);
+ osc.start(now);osc.stop(now+duration+.03);
+}
+function playSignalCue(kind){
+ if(kind==='BUY NOW'){
+  playTone(784,.14,'sine',1);setTimeout(()=>playTone(988,.18,'triangle',.85),95);
+ }else if(kind==='SELL NOW'){
+  playTone(494,.12,'triangle',.95);setTimeout(()=>playTone(392,.18,'sawtooth',.72),100);
+ }else if(kind==='BLOCKED'){
+  playTone(260,.18,'square',.65);
+ }else if(kind==='PROFIT'){
+  playTone(988,.11,'triangle',1);setTimeout(()=>playTone(1175,.17,'sine',.95),90);
+ }else if(kind==='LOSS'){
+  playTone(330,.12,'sawtooth',.8);setTimeout(()=>playTone(247,.18,'triangle',.75),105);
+ }else if(kind==='AMBIENT'){
+  const notes=[523,659,784,698];
+  const n=notes[Math.floor(Math.random()*notes.length)];
+  playTone(n,.12,'sine',.35);
+ }
+}
+function setSoundUi(){
+ const label=$('soundStateLabel'),toggle=$('soundToggleBtn'),range=$('soundVolume'),fx=$('effectsToggleBtn');
+ if(label)label.textContent=state.soundOn?'SOUND ON':'SOUND OFF';
+ if(toggle)toggle.textContent=state.soundOn?'ON':'OFF';
+ if(range)range.value=String(state.soundVolume||45);
+ if(fx){
+  fx.textContent=state.effectsOn?'✨ EFFECTS ON':'✨ EFFECTS OFF';
+  fx.classList.toggle('off',!state.effectsOn);
+ }
+}
+function maybeAmbient(){
+ if(!state.soundOn||!audioStarted)return;
+ if(Math.random()<.18)playSignalCue('AMBIENT');
+}
+
+function persist(){localStorage.setItem(storeKey,JSON.stringify(state))}
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.remove('show'),2500)}
+function addLog(type,market,decision,amount,result,reason){
+ state.log.unshift({time:new Date().toLocaleString(),type,market,decision,amount,result,reason});
+ state.log=state.log.slice(0,150);persist();
+}
+function openPage(name){
+ $$('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+name));
+ $$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.page===name));
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+$$('.tab').forEach(t=>t.onclick=()=>openPage(t.dataset.page));
+$$('[data-goto]').forEach(b=>b.onclick=()=>openPage(b.dataset.goto));
+$('profileTop').onclick=()=>openPage('profile');
+
+$('soundToggleBtn').onclick=()=>{
+ ensureAudio();
+ state.soundOn=!state.soundOn;persist();setSoundUi();
+ if(state.soundOn)playSignalCue('AMBIENT');
+};
+$('soundVolume').oninput=e=>{
+ ensureAudio();
+ state.soundVolume=Number(e.target.value)||45;persist();setSoundUi();
+};
+$('effectsToggleBtn').onclick=()=>{
+ state.effectsOn=!state.effectsOn;
+ document.body.classList.toggle('effects-off',!state.effectsOn);
+ persist();setSoundUi();
+};
+document.addEventListener('pointerdown',()=>ensureAudio(),{once:true});
+
+function profileReady(){return Boolean(state.profile.first&&state.profile.email&&state.profile.country)}
+function applyProfile(){
+ const p=state.profile,display=p.first||'Mrs. Barry',robot=p.robot||'Mrs. Barry';
+ $('brandName').textContent=robot;$('welcomeName').textContent='Welcome, '+display;
+ $('miniBroker').textContent=p.broker||'Pepperstone';$('miniPlatform').textContent=p.platform||'MetaTrader 5';
+ $('miniAccountCurrency').textContent=p.accountCurrency||'USD';$('miniDisplayCurrency').textContent=p.displayCurrency||'KES';if($('miniFundingMethod'))$('miniFundingMethod').textContent=p.fundingMethod||'M-PESA';
+ ['Robot','First','Last','Email','Country','Broker','Fx','BrokerUrl','Status'].forEach(()=>{});
+ $('pRobot').value=p.robot;$('pFirst').value=p.first;$('pLast').value=p.last;$('pEmail').value=p.email;$('pCountry').value=p.country;$('pBroker').value=p.broker;
+ $('pPlatform').value=p.platform;$('pAccountCurrency').value=p.accountCurrency;$('pDisplayCurrency').value=p.displayCurrency;$('pFundingMethod').value=p.fundingMethod||'M-PESA';$('pFx').value=p.fxRate;$('pBrokerUrl').value=p.brokerUrl;$('pStatus').value=p.status;
+}
+function showLoginIfNeeded(){
+ if(localStorage.getItem(storeKey)&&state.profile.status==='demo')$('loginOverlay').classList.add('hidden');
+ else $('loginOverlay').classList.remove('hidden');
+ $('loginFirst').value=state.profile.first;$('loginLast').value=state.profile.last;$('loginEmail').value=state.profile.email;$('loginCountry').value=state.profile.country;
+ $('loginAccountCurrency').value=state.profile.accountCurrency;$('loginDisplayCurrency').value=state.profile.displayCurrency;
+}
+$('enterDemo').onclick=()=>{
+ state.profile.first=$('loginFirst').value.trim();state.profile.last=$('loginLast').value.trim();state.profile.email=$('loginEmail').value.trim();
+ state.profile.country=$('loginCountry').value.trim()||'Kenya';state.profile.accountCurrency=$('loginAccountCurrency').value;state.profile.displayCurrency=$('loginDisplayCurrency').value;state.profile.status='demo';
+ ensureAudio();persist();$('loginOverlay').classList.add('hidden');renderAll();playSignalCue('AMBIENT');toast('Personal demo profile saved on this device.');
+};
+
+function moveMarkets(){
+ runtimeMarkets.forEach((m,i)=>{
+  const vol=m.p>1000?.00018:m.p>100?.00012:.00018;
+  m.p=Math.max(.0001,m.p*(1+(Math.random()-.493)*vol));
+  m.series.push(m.p);if(m.series.length>85)m.series.shift()
+ })
+}
+function marketScore(i){
+ const a=runtimeMarkets[i].series,s6=a.slice(-6).reduce((x,y)=>x+y,0)/6,s18=a.slice(-18).reduce((x,y)=>x+y,0)/18;
+ const momentum=(s6-s18)/s18;
+ const vol=(Math.max(...a.slice(-18))-Math.min(...a.slice(-18)))/s18;
+ return clamp(Math.round(50+momentum*65000-vol*7000),1,99)
+}
+function marketSpread(i){const m=runtimeMarkets[i];return Math.max(.02,Math.min(.55,Math.abs(Math.sin(Date.now()/9500+i))*0.19+.04))}
+function decisionFor(i){
+ const s=marketScore(i),spread=marketSpread(i),set=state.settings;
+ if(state.stopped)return {label:'BLOCKED',cls:'block',score:s,reason:'Emergency Stop is active.'};
+ if(state.realizedLoss>=set.dailyStop)return {label:'BLOCKED',cls:'block',score:s,reason:'Daily loss stop has been reached.'};
+ if(state.tradesToday>=set.maxTradesPerDay)return {label:'BLOCKED',cls:'block',score:s,reason:'Maximum new trades for today has been reached.'};
+ if(state.consecutiveLosses>=set.maxConsecutiveLosses)return {label:'BLOCKED',cls:'block',score:s,reason:'Consecutive-loss protection is active.'};
+ if(spread>set.maxSpread)return {label:'BLOCKED',cls:'block',score:s,reason:'Current demo spread is above the configured maximum.'};
+ if(s>=set.minScore)return {label:'BUY NOW',cls:'buy',score:s,reason:'Momentum and signal strength are above the configured entry threshold.'};
+ if(set.shorts && s<=100-set.minScore)return {label:'SELL NOW',cls:'sell',score:s,reason:'Downward momentum is strong enough for a demo short setup.'};
+ return {label:'WAIT',cls:'wait',score:s,reason:'No sufficiently strong setup is confirmed. Keeping cash is allowed.'};
+}
+function chooseBest(){
+ if(state.settings.selectionMode!=='auto')return;
+ let best=state.selected,bestDistance=-1;
+ runtimeMarkets.forEach((m,i)=>{const d=Math.abs(marketScore(i)-50);if(d>bestDistance){best=i;bestDistance=d}});
+ state.selected=best;
+}
+
+function investedCapital(){return state.positions.reduce((a,p)=>a+p.capital,0)}
+function availableCapital(){return Math.max(0,state.settings.capital-state.settings.reserve-investedCapital())}
+function positionPnl(p){
+ const m=runtimeMarkets[p.i],dir=p.side==='BUY'?1:-1;
+ return (m.p-p.entry)/p.entry*p.capital*dir;
+}
+function totalOpenPnl(){return state.positions.reduce((a,p)=>a+positionPnl(p),0)}
+function estimatedOpenRisk(){return state.positions.reduce((a,p)=>a+Math.min(state.settings.maxRiskPerPosition,p.capital*state.settings.stopPct/100),0)}
+function currentStrategyCapital(){return Math.max(0,state.settings.capital-state.realizedLoss+(state.settings.reinvest?state.profitVault:0))}
+function taxlessVault(){return state.profitVault}
+
+function renderKpis(){
+ const open=totalOpenPnl(),avail=availableCapital(),risk=estimatedOpenRisk(),next=Math.max(0,state.settings.profitNotify-state.profitVault);
+ const vals=[
+  ['STRATEGY CAPITAL',money(state.settings.capital),'Owner-approved limit'],
+  ['CASH RESERVE',money(state.settings.reserve),'Intentionally uninvested'],
+  ['AVAILABLE NOW',money(avail),'After reserve + open positions'],
+  ['PROFIT VAULT',money(state.profitVault),'Separated from base capital'],
+  ['OPEN P&L',money(open),'Current demo positions'],
+  ['DAILY LOSS',money(state.realizedLoss),'Limit '+money(state.settings.dailyStop)],
+  ['OPEN RISK',money(risk),'Limit '+money(state.settings.maxOpenPortfolioRisk)],
+  ['NEXT PROFIT NOTICE',money(next),'Owner withdrawal review']
+ ];
+ $('kpiGrid').innerHTML=vals.map((x,i)=>`<article class="card kpi"><div class="kpi-top"><span>${x[0]}</span><span>${i===3?'◆':'•'}</span></div><div class="kpi-value ${i===3?'good':i===5&&state.realizedLoss>0?'bad':''}">${x[1]}</div><div class="kpi-sub">${x[2]}</div></article>`).join('');
+}
+
+function sparkSvg(a){
+ const data=a.slice(-28),mn=Math.min(...data),mx=Math.max(...data),sp=mx-mn||1;
+ const pts=data.map((v,i)=>`${i/(data.length-1)*120},${27-(v-mn)/sp*24}`).join(' ');
+ return `<svg viewBox="0 0 120 30" preserveAspectRatio="none"><polyline points="${pts}" fill="none" stroke="#43eadb" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+}
+
+function renderResults(){
+ const open=totalOpenPnl();
+ const realisedNet=state.profitVault-state.realizedLoss;
+ const total=realisedNet+open;
+ const rows=[
+  ['GROSS PROFIT',money(state.profitVault),'Profit already closed and stored in the Profit Vault','good'],
+  ['REALISED LOSS',money(state.realizedLoss),'Loss from already closed demo positions','bad'],
+  ['NET REALISED',money(realisedNet),'Gross profit minus realised loss',realisedNet>=0?'good':'bad'],
+  ['TOTAL RESULT',money(total),'Net realised result plus current open P&L',total>=0?'good':'bad']
+ ];
+ $('resultsGrid').innerHTML=rows.map(r=>`<div class="result-box"><small>${r[0]}</small><b class="${r[3]}">${r[1]}</b><div class="kpi-sub">${r[2]}</div></div>`).join('');
+}
+function renderExitRules(){
+ const s=state.settings;
+ const sellMeaning=s.shorts
+   ? 'SELL NOW may open a new short demo trade when a strong downward signal is confirmed and all risk rules allow it.'
+   : 'SELL / short trades are currently disabled. SELL NOW will not open a new short position.';
+ const targetAction=s.trailing
+   ? `At +${s.targetPct}% the first profit target activates trailing protection. The position may continue, but it closes if price retraces about ${s.trailingDistancePct}% from its best level.`
+   : `At +${s.targetPct}% the demo position closes at the first profit target.`;
+ const opposite=s.closeOnOppositeSignal
+   ? 'If an open position receives a strong confirmed opposite signal, Mrs. Barry may close that existing position. Closing is different from opening a new opposite trade.'
+   : 'Opposite-signal closing is disabled. The position remains governed by Stop Loss, profit target/trailing rules, emergency protection or manual close.';
+ $('exitRules').innerHTML=[
+  `<div class="exit-box"><h4>1 · RISK EXIT</h4><p>Initial Stop Loss: ${s.stopPct}%. A position may close when its stop is reached. Portfolio emergency protection can also close positions if total open loss reaches ${money(s.emergencyOpenLoss)}.</p></div>`,
+  `<div class="exit-box"><h4>2 · PROFIT EXIT</h4><p>${targetAction}</p></div>`,
+  `<div class="exit-box"><h4>3 · SIGNAL / OWNER EXIT</h4><p>${opposite}<br><br>${sellMeaning}<br><br>The owner can always use CLOSE on an open demo position.</p></div>`
+ ].join('');
+}
+
+function renderAssets(){
+ $('assetGrid').innerHTML=runtimeMarkets.map((m,i)=>{
+  const d=decisionFor(i),base=m.series[0],chg=(m.p-base)/base*100;
+  return `<div class="asset ${i===state.selected?'active':''}" data-asset="${i}">
+    <div class="asset-top"><div class="asset-name"><b>${m.s}</b><small>${m.n}</small></div><div><div class="asset-price">${fmt(m)}</div><div class="asset-change ${chg>=0?'good':'bad'}">${chg>=0?'+':''}${chg.toFixed(2)}%</div></div></div>
+    <div class="spark">${sparkSvg(m.series)}</div><div class="signal ${d.cls}">${d.label}</div></div>`
+ }).join('');
+ $$('[data-asset]').forEach(a=>a.onclick=()=>{state.selected=+a.dataset.asset;persist();renderAll()})
+}
+
+function renderMainChart(){
+ const m=runtimeMarkets[state.selected],a=m.series.slice(-70),mn=Math.min(...a),mx=Math.max(...a),sp=mx-mn||1;
+ const pts=a.map((v,i)=>`${i/(a.length-1)*900},${285-(v-mn)/sp*260}`).join(' ');
+ $('mainChart').innerHTML=`<defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#43eadb" stop-opacity=".25"/><stop offset="100%" stop-color="#43eadb" stop-opacity="0"/></linearGradient></defs><g stroke="rgba(142,174,180,.11)" stroke-width="1">${[50,105,160,215,270].map(y=>`<line x1="0" x2="900" y1="${y}" y2="${y}"/>`).join('')}</g><polygon points="0,300 ${pts} 900,300" fill="url(#area)"/><polyline points="${pts}" fill="none" stroke="#43eadb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
+ const base=a[0],chg=(m.p-base)/base*100;$('selectedSymbol').textContent=m.s;$('selectedName').textContent=m.n;$('selectedPrice').textContent=fmt(m);$('selectedChange').textContent=(chg>=0?'+':'')+chg.toFixed(2)+'%';$('selectedChange').className=chg>=0?'good':'bad'
+}
+function renderDecision(){
+ const d=decisionFor(state.selected);$('decisionLabel').textContent=d.label;$('decisionLabel').className=d.cls==='buy'?'good':d.cls==='sell'?'bad':d.cls==='block'?'muted':'warn';$('decisionReason').textContent=d.reason;$('scoreTag').textContent='SCORE '+d.score+'%';$('scoreBar').style.width=d.score+'%';
+ $('sellBtn').disabled=!state.settings.shorts;
+}
+function allocations(){
+ const out=runtimeMarkets.map((m,i)=>({s:m.s,pct:0}));
+ if(!state.positions.length){out[state.selected].pct=0;return out}
+ state.positions.forEach(p=>{out[p.i].pct+=p.capital/state.settings.capital*100});
+ return out
+}
+function renderAllocation(){
+ const rows=allocations();$('allocationList').innerHTML=rows.map(r=>`<div class="alloc-row"><span>${r.s}</span><div class="alloc-track"><i style="width:${clamp(r.pct,0,100)}%"></i></div><b>${r.pct.toFixed(0)}%</b></div>`).join('')+`<div class="alloc-row"><span>CASH</span><div class="alloc-track"><i style="width:${clamp((state.settings.reserve+availableCapital())/state.settings.capital*100,0,100)}%"></i></div><b>${((state.settings.reserve+availableCapital())/state.settings.capital*100).toFixed(0)}%</b></div>`
+}
+function renderRisk(){
+ const set=state.settings,rows=[
+  ['Max loss / position',money(set.maxRiskPerPosition)],
+  ['Open portfolio risk',money(estimatedOpenRisk())+' / '+money(set.maxOpenPortfolioRisk)],
+  ['Emergency open-loss',money(set.emergencyOpenLoss)],
+  ['Daily loss stop',money(state.realizedLoss)+' / '+money(set.dailyStop)],
+  ['Weekly loss stop',money(set.weeklyStop)],
+  ['Max total drawdown',money(set.maxDrawdown)],
+  ['Trades today',state.tradesToday+' / '+set.maxTradesPerDay],
+  ['Emergency Stop',state.stopped?'ACTIVE':'READY']
+ ];
+ $('riskList').innerHTML=rows.map((r,i)=>`<div class="risk-row"><span>${r[0]}</span><b class="${i===7&&state.stopped?'bad':''}">${r[1]}</b></div>`).join('')
+}
+function renderActivity(){
+ const items=state.log.slice(0,8);$('activityList').innerHTML=items.length?items.map(x=>`<div class="activity-row"><b>${x.decision||x.type}</b> · ${x.market||'SYSTEM'}<br><small>${x.time} · ${x.reason}</small></div>`).join(''):'<div class="activity-row"><b>READY</b><br><small>No demo activity yet.</small></div>'
+}
+function renderPositions(){
+ $('positionsRows').innerHTML=state.positions.map(p=>{
+  const m=runtimeMarkets[p.i],pnl=positionPnl(p);
+  return `<tr><td>${m.s}</td><td class="${p.side==='BUY'?'good':'bad'}">${p.side}</td><td>${money(p.capital)}</td><td>${fmt(m,p.entry)}</td><td>${fmt(m)}</td><td>${fmt(m,p.stop)}</td><td>${fmt(m,p.target)}</td><td class="${pnl>=0?'good':'bad'}">${money(pnl)}</td><td><button class="btn" data-close-pos="${p.id}">CLOSE</button></td></tr>`
+ }).join('');
+ $$('[data-close-pos]').forEach(b=>b.onclick=()=>closePosition(+b.dataset.closePos,'MANUAL CLOSE'));
+ $('openCountTag').textContent=state.positions.length+' OPEN';
+ const wins=state.history.filter(h=>h.pnl>0).length,losses=state.history.filter(h=>h.pnl<0).length;
+ $('closedSummary').innerHTML=[
+  ['Closed trades',state.history.length],['Winning trades',wins],['Losing trades',losses],
+  ['Profit Vault',money(state.profitVault)],['Realised losses',money(state.realizedLoss)],['Display value',displayMoney(state.profitVault)]
+ ].map(r=>`<div class="risk-row"><span>${r[0]}</span><b>${r[1]}</b></div>`).join('')
+}
+function renderCapitalPage(){
+ const s=state.settings;
+ $('capitalRules').innerHTML=[
+  ['Strategy capital','Mrs. Barry may use up to '+money(s.capital)+' as the owner-approved strategy base.'],
+  ['Cash reserve',money(s.reserve)+' remains intentionally uninvested.'],
+  ['Maximum positions','Up to '+s.maxPositions+' simultaneous positions.'],
+  ['Allocation',s.equalAllocation?'Equal split is required.':'Dynamic allocation is allowed; weak markets may receive zero.'],
+  ['Entry threshold','A new entry normally requires a signal score of at least '+s.minScore+'%.'],
+  ['Loss protection','Each position targets no more than '+money(s.maxRiskPerPosition)+' planned loss.'],
+  ['Daily protection','New entries stop after '+money(s.dailyStop)+' realised daily loss.'],
+  ['Cooldown','After profit: '+s.winCooldown+' min · After loss: '+s.lossCooldown+' min.']
+ ].map(r=>`<div class="risk-row"><span>${r[0]}</span><b style="max-width:65%;text-align:right">${r[1]}</b></div>`).join('');
+ $('moneyRules').innerHTML=[
+  ['Profit Vault',money(state.profitVault)+' tracked separately'],
+  ['Auto reinvestment',s.reinvest?'ON':'OFF'],
+  ['Profit notification target',money(s.profitNotify)],
+  ['Capital increase',s.capitalApproval?'Manual approval required':'Demo automatic allowed'],
+  ['Automatic bank withdrawal','DISABLED'],
+  ['Owner withdrawal','Official broker portal only']
+ ].map((r,i)=>`<div class="risk-row"><span>${r[0]}</span><b class="${i===4?'bad':i===5?'good':''}">${r[1]}</b></div>`).join('')
+}
+function renderLog(){
+ $('logRows').innerHTML=state.log.map(x=>`<tr><td>${x.time}</td><td>${x.type}</td><td>${x.market||'—'}</td><td>${x.decision||'—'}</td><td>${x.amount||'—'}</td><td>${x.result||'—'}</td><td>${x.reason||''}</td></tr>`).join('')
+}
+
+function fillProfile(){
+ applyProfile()
+}
+function fillSettings(){
+ const s=state.settings;
+ const map={
+  sCapital:s.capital,sReserve:s.reserve,sMaxPositions:s.maxPositions,sMaxPositionCapital:s.maxPositionCapital,
+  sSelectionMode:s.selectionMode,sEqualAllocation:String(s.equalAllocation),sRiskTrade:s.maxRiskPerPosition,sPortfolioRisk:s.maxOpenPortfolioRisk,sEmergencyLoss:s.emergencyOpenLoss,
+  sDailyStop:s.dailyStop,sWeeklyStop:s.weeklyStop,sMaxDrawdown:s.maxDrawdown,sMaxTradesDay:s.maxTradesPerDay,sMaxConsecutiveLosses:s.maxConsecutiveLosses,sEmergencyEnabled:String(s.emergencyEnabled),
+  sMinScore:s.minScore,sMaxSpread:s.maxSpread,sStopPct:s.stopPct,sTargetPct:s.targetPct,sTrailing:String(s.trailing),sTrailingDistance:s.trailingDistancePct,sCloseOpposite:String(s.closeOnOppositeSignal),sWinCooldown:s.winCooldown,sLossCooldown:s.lossCooldown,sShorts:String(s.shorts),sOvernight:String(s.overnight),
+  sReinvest:String(s.reinvest),sProfitNotify:s.profitNotify,sCapitalApproval:String(s.capitalApproval),sExecution:s.execution
+ };
+ Object.entries(map).forEach(([id,v])=>$(id).value=v);
+ $('marketEditor').innerHTML=state.markets.map((m,i)=>`<div class="market-slot"><input id="mSymbol${i}" value="${escapeHtml(m.s)}" aria-label="Market ${i+1} symbol"><input id="mName${i}" value="${escapeHtml(m.n)}" aria-label="Market ${i+1} name"></div>`).join('')
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+function syncRuntimeMarketLabels(){runtimeMarkets.forEach((m,i)=>{m.s=state.markets[i].s||defaultMarkets[i].s;m.n=state.markets[i].n||defaultMarkets[i].n})}
+
+function renderAll(){
+ chooseBest();syncRuntimeMarketLabels();applyProfile();renderKpis();renderResults();renderAssets();renderMainChart();renderDecision();renderAllocation();renderRisk();renderActivity();renderPositions();renderCapitalPage();renderExitRules();renderLog();fillSettings();setSoundUi()
+}
+
+function canOpenTrade(){
+ const s=state.settings;
+ if(state.stopped)return 'Emergency Stop is active.';
+ if(state.positions.length>=s.maxPositions)return 'Maximum open positions reached.';
+ if(state.tradesToday>=s.maxTradesPerDay)return 'Maximum new trades for today reached.';
+ if(state.realizedLoss>=s.dailyStop)return 'Daily loss stop reached.';
+ if(state.consecutiveLosses>=s.maxConsecutiveLosses)return 'Consecutive-loss pause is active.';
+ if(estimatedOpenRisk()+s.maxRiskPerPosition>s.maxOpenPortfolioRisk)return 'Open portfolio risk limit would be exceeded.';
+ if(availableCapital()<1)return 'No investable capital is available after reserve and open positions.';
+ return '';
+}
+let pending=null;
+function requestTrade(side){
+ if(side==='SELL'&&!state.settings.shorts)return toast('SELL / short trades are disabled in Settings.');
+ const block=canOpenTrade();if(block)return toast(block);
+ const d=decisionFor(state.selected),m=runtimeMarkets[state.selected];
+ if(state.settings.execution==='signal')return toast(side+' signal noted. Signal Only mode does not open a demo trade.');
+ const capital=Math.min(state.settings.maxPositionCapital,availableCapital());
+ if(capital<=0)return toast('No demo capital available.');
+ if(state.settings.execution==='confirm'||state.settings.selectionMode==='recommend'){
+  pending={side,capital,i:state.selected};
+  $('confirmTitle').textContent='CONFIRM '+side+' DEMO TRADE';
+  $('confirmBody').innerHTML=`Market: <b>${m.s}</b><br>Capital: <b>${money(capital)}</b><br>Robot decision: <b>${d.label}</b><br><br>This is a local simulation and cannot send a real order.`;
+  $('confirmModal').classList.add('open');return
+ }
+ openTrade(side,capital,state.selected)
+}
+function openTrade(side,capital,i){
+ const m=runtimeMarkets[i],s=state.settings,entry=m.p,dir=side==='BUY'?1:-1;
+ const stop=entry*(1-dir*s.stopPct/100),target=entry*(1+dir*s.targetPct/100);
+ state.positions.push({id:Date.now()+Math.random(),i,side,capital,entry,stop,target,high:entry,low:entry,opened:Date.now()});
+ state.tradesToday++;addLog('TRADE',m.s,side,money(capital),'OPEN','Demo position opened with configured stop and target.');persist();renderAll();playSignalCue(side==='BUY'?'BUY NOW':'SELL NOW');toast(side+' demo position opened on '+m.s)
+}
+function closePosition(id,reason){
+ const k=state.positions.findIndex(p=>p.id===id);if(k<0)return;
+ const p=state.positions[k],m=runtimeMarkets[p.i],pnl=positionPnl(p);
+ if(pnl>=0){state.profitVault+=pnl;state.consecutiveLosses=0}
+ else{state.realizedLoss+=Math.abs(pnl);state.consecutiveLosses++}
+ state.history.unshift({...p,close:m.p,pnl,closed:new Date().toLocaleString(),reason});
+ state.positions.splice(k,1);
+ addLog('EXIT',m.s,'CLOSE',money(p.capital),money(pnl),reason);
+ persist();renderAll();playSignalCue(pnl>=0?'PROFIT':'LOSS');toast('Position closed: '+money(pnl));
+ if(state.profitVault>=state.settings.profitNotify)toast('Profit Vault target reached. Owner may review a manual withdrawal in the official broker portal.')
+}
+function protectPositions(){
+ const s=state.settings;
+ state.positions.slice().forEach(p=>{
+  const m=runtimeMarkets[p.i],dir=p.side==='BUY'?1:-1;
+  p.high=Math.max(p.high,m.p);p.low=Math.min(p.low,m.p);
+  const hitStop=p.side==='BUY'?m.p<=p.stop:m.p>=p.stop;
+  const hitTarget=p.side==='BUY'?m.p>=p.target:m.p<=p.target;
+  if(hitStop)return closePosition(p.id,'STOP LOSS / RISK EXIT');
+  if(hitTarget){
+   if(!s.trailing)return closePosition(p.id,'PROFIT TARGET');
+   const trail=state.settings.trailingDistancePct/100;const protectedPrice=p.side==='BUY'?p.high*(1-trail):p.low*(1+trail);
+   p.stop=p.side==='BUY'?Math.max(p.stop,protectedPrice):Math.min(p.stop,protectedPrice);
+  }
+  if(s.closeOnOppositeSignal){
+   const opposite=decisionFor(p.i).label;
+   if(p.side==='BUY'&&opposite==='SELL NOW')return closePosition(p.id,'STRONG OPPOSITE SIGNAL');
+   if(p.side==='SELL'&&opposite==='BUY NOW')return closePosition(p.id,'STRONG OPPOSITE SIGNAL');
+  }
+ });
+ if(s.emergencyEnabled&&totalOpenPnl()<=-s.emergencyOpenLoss&&state.positions.length){
+  state.positions.slice().forEach(p=>closePosition(p.id,'PORTFOLIO EMERGENCY EXIT'))
+ }
+}
+
+$('buyBtn').onclick=()=>requestTrade('BUY');$('sellBtn').onclick=()=>requestTrade('SELL');$('waitBtn').onclick=()=>{addLog('DECISION',runtimeMarkets[state.selected].s,'WAIT','—','—','Owner chose to wait.');renderAll();toast('WAIT selected. No trade opened.')};
+$('closeSelectedBtn').onclick=()=>{const p=state.positions.find(x=>x.i===state.selected);if(!p)return toast('No open position for the selected market.');closePosition(p.id,'MANUAL OWNER CLOSE')};
+
+$$('[data-close]').forEach(b=>b.onclick=()=>$(b.dataset.close).classList.remove('open'));
+$('confirmTradeBtn').onclick=()=>{if(!pending)return;$('confirmModal').classList.remove('open');openTrade(pending.side,pending.capital,pending.i);pending=null};
+
+$('saveProfileBtn').onclick=()=>{
+ state.profile.robot=$('pRobot').value.trim()||'Mrs. Barry';state.profile.first=$('pFirst').value.trim();state.profile.last=$('pLast').value.trim();state.profile.email=$('pEmail').value.trim();
+ state.profile.country=$('pCountry').value.trim()||'Kenya';state.profile.broker=$('pBroker').value.trim()||'Pepperstone';state.profile.platform=$('pPlatform').value;state.profile.accountCurrency=$('pAccountCurrency').value;state.profile.displayCurrency=$('pDisplayCurrency').value;state.profile.fundingMethod=$('pFundingMethod').value;
+ state.profile.fxRate=Math.max(.0001,Number($('pFx').value)||1);state.profile.brokerUrl=$('pBrokerUrl').value.trim();state.profile.status=$('pStatus').value;
+ persist();renderAll();toast('Personal profile saved on this device.')
+};
+$('clearProfileBtn').onclick=()=>{state.profile={...defaults.profile};persist();renderAll();toast('Personal profile cleared.')};
+$('openBrokerBtn').onclick=()=>{
+ const u=state.profile.brokerUrl;if(!u)return toast('Broker portal URL is still a placeholder. Add the official HTTPS URL in Profile.');
+ try{const url=new URL(u);if(url.protocol!=='https:')throw new Error();window.open(url.href,'_blank','noopener')}catch{toast('Please enter a valid official HTTPS broker portal URL.')}
+};
+
+$('saveSettingsBtn').onclick=()=>{
+ const s=state.settings;
+ s.capital=Math.max(10,Number($('sCapital').value)||100);s.reserve=clamp(Number($('sReserve').value)||0,0,s.capital);s.maxPositions=clamp(Number($('sMaxPositions').value)||1,1,7);s.maxPositionCapital=Math.max(1,Number($('sMaxPositionCapital').value)||25);
+ s.selectionMode=$('sSelectionMode').value;s.equalAllocation=$('sEqualAllocation').value==='true';s.maxRiskPerPosition=Math.max(.1,Number($('sRiskTrade').value)||1);s.maxOpenPortfolioRisk=Math.max(.1,Number($('sPortfolioRisk').value)||2);s.emergencyOpenLoss=Math.max(.1,Number($('sEmergencyLoss').value)||5);
+ s.dailyStop=Math.max(.1,Number($('sDailyStop').value)||5);s.weeklyStop=Math.max(.1,Number($('sWeeklyStop').value)||10);s.maxDrawdown=Math.max(.1,Number($('sMaxDrawdown').value)||20);s.maxTradesPerDay=Math.max(1,Number($('sMaxTradesDay').value)||3);s.maxConsecutiveLosses=Math.max(1,Number($('sMaxConsecutiveLosses').value)||2);s.emergencyEnabled=$('sEmergencyEnabled').value==='true';
+ s.minScore=clamp(Number($('sMinScore').value)||72,50,99);s.maxSpread=Math.max(.01,Number($('sMaxSpread').value)||.3);s.stopPct=Math.max(.1,Number($('sStopPct').value)||1);s.targetPct=Math.max(.1,Number($('sTargetPct').value)||1.5);s.trailing=$('sTrailing').value==='true';s.trailingDistancePct=Math.max(.1,Number($('sTrailingDistance').value)||.4);s.closeOnOppositeSignal=$('sCloseOpposite').value==='true';s.winCooldown=Math.max(0,Number($('sWinCooldown').value)||0);s.lossCooldown=Math.max(0,Number($('sLossCooldown').value)||0);s.shorts=$('sShorts').value==='true';s.overnight=$('sOvernight').value==='true';
+ s.reinvest=$('sReinvest').value==='true';s.profitNotify=Math.max(1,Number($('sProfitNotify').value)||100);s.capitalApproval=$('sCapitalApproval').value==='true';s.execution=$('sExecution').value;
+ state.markets=state.markets.map((m,i)=>({s:$('mSymbol'+i).value.trim()||defaultMarkets[i].s,n:$('mName'+i).value.trim()||defaultMarkets[i].n}));
+ persist();syncRuntimeMarketLabels();renderAll();addLog('SETTINGS','SYSTEM','UPDATED','—','—','Owner saved the Mrs. Barry demo configuration.');toast('All Mrs. Barry settings saved.')
+};
+$('resetSettingsBtn').onclick=()=>{state.settings={...defaults.settings};state.markets=defaults.markets.map(x=>({...x}));persist();renderAll();toast('Demo settings reset to placeholders.')};
+
+$('exportLogBtn').onclick=()=>{
+ const safe={project:state.profile.robot,environment:'DEMO',profile:{first:state.profile.first,last:state.profile.last,country:state.profile.country,broker:state.profile.broker,platform:state.profile.platform,accountCurrency:state.profile.accountCurrency,displayCurrency:state.profile.displayCurrency},settings:state.settings,markets:state.markets,summary:{profitVault:state.profitVault,realizedLoss:state.realizedLoss,openPositions:state.positions.length},security:{liveTrading:false,automaticWithdrawals:false,brokerPasswordsStored:false,twoFactorCodesStored:false}};
+ const blob=new Blob([JSON.stringify(safe,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='mrs-barry-demo-config.json';a.click();URL.revokeObjectURL(a.href)
+};
+$('clearLogBtn').onclick=()=>{state.log=[];persist();renderLog();toast('Demo activity log cleared.')};
+
+function updateStatus(){
+ $('systemHeadline').textContent=state.stopped?'Emergency Stop Active':'Demo System Online';$('systemSub').textContent=state.stopped?'New demo entries blocked':'Local simulation · broker not connected'
+}
+function autoDemo(){
+ if(state.settings.execution!=='auto'||state.stopped)return;
+ const d=decisionFor(state.selected);
+ if((d.label==='BUY NOW'||d.label==='SELL NOW')&&Math.random()<.035&&!canOpenTrade())requestTrade(d.label.startsWith('BUY')?'BUY':'SELL')
+}
+function tick(){
+ moveMarkets();protectPositions();autoDemo();
+ const currentDecision=decisionFor(state.selected).label;
+ if(currentDecision!==state.lastDecisionLabel){
+  if(state.lastDecisionLabel)playSignalCue(currentDecision);
+  state.lastDecisionLabel=currentDecision;
+ }
+ renderAssets();renderMainChart();renderDecision();renderKpis();renderResults();renderAllocation();renderRisk();renderPositions();renderCapitalPage();renderExitRules();renderActivity();updateStatus();
+ maybeAmbient()
+}
+
+$('profileTop').onclick=()=>openPage('profile');
+showLoginIfNeeded();renderAll();updateStatus();
+setInterval(tick,1700);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#020a11">
+  <title>Barry Sentinel V7 — Barry Moneycome Cockpit · Readable V3</title>
+  <link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="ambient a1"></div><div class="ambient a2"></div><div class="ambient a3"></div>
+
+  <main class="shell">
+    <header class="topbar glass">
+      <div class="brand">
+        <div class="mark"><span>B</span></div>
+        <div>
+          <div class="eyebrow">BARRY SENTINEL V7 · BARRY MONEYCOME</div>
+          <h1>Portfolio Command Center</h1>
+        </div>
+      </div>
+
+      <div class="mode-stack">
+        <span class="pill cyan" id="modePill">PAPER / SHADOW</span>
+        <span class="pill red">LIVE BLOCKIERT</span>
+        <span class="pill" id="backendPill">Backend wird geprüft…</span>
+      </div>
+
+      <div class="clock-deck">
+        <div class="clock-block"><small>LOKAL</small><b id="localClock">--:--:--</b></div>
+        <div class="clock-block ny"><small>NEW YORK</small><b id="nyClock">--:--:--</b></div>
+        <div class="session-block"><small id="sessionLabel">US SESSION</small><b id="sessionCountdown">--:--:--</b><span id="sessionState">wird berechnet</span></div>
+      </div>
+    </header>
+
+    <div class="ticker glass" id="tickerStrip"></div>
+
+    <nav class="nav glass" aria-label="Cockpit Navigation">
+      <button class="nav-btn active" data-page="cockpit">Cockpit</button>
+      <button class="nav-btn" data-page="portfolio">Portfolio</button>
+      <button class="nav-btn" data-page="risk">Risk & Guards</button>
+      <button class="nav-btn" data-page="system">System</button>
+      <button class="nav-btn" data-page="roadmap">Roadmap</button>
+      <div class="nav-spacer"></div>
+      <button class="btn settings" id="settingsTop">⚙ Kapital & Regeln</button>
+      <button class="btn ghost" id="refreshBtn">↻ Aktualisieren</button>
+      <button class="btn demo" id="demoBtn">Demo-Ansicht</button>
+      <a class="btn ibkr" href="https://www.interactivebrokers.ie/sso/Login?deepLinkTo=/dashboard" target="_blank" rel="noopener">IBKR öffnen ↗</a>
+    </nav>
+
+    <section class="page active" id="page-cockpit">
+      <section class="hero-grid">
+        <article class="hero card accent-cyan">
+          <div class="hero-kicker">LIVE SYSTEM PULSE</div>
+          <div class="hero-main">
+            <div>
+              <div class="hero-state" id="heroState">INITIALISIERT</div>
+              <div class="hero-copy" id="heroCopy">Barry Sentinel liest lokale V7-Daten ausschließlich im Read-only-Modus.</div>
+              <div class="hero-badges">
+                <span><i class="led" id="backendLed"></i><b id="connectionText">LOKAL</b> V7 Backend</span>
+                <span><i class="led amber" id="marketLed"></i><b id="marketText">—</b> Marktdaten</span>
+                <span><i class="led green"></i><b>SAFE</b> Cockpit ohne Orderfunktion</span>
+              </div>
+            </div>
+            <div class="orb-wrap">
+              <div class="orbit o1"></div><div class="orbit o2"></div>
+              <div class="system-orb" id="systemOrb"><span></span><b>V7</b></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="session-card card accent-purple">
+          <div class="card-title-row"><div><span class="mini-label">MARKET CLOCK</span><h2>US-Marktfenster</h2></div><span class="pulse-icon">◉</span></div>
+          <div class="session-big" id="sessionBig">—</div>
+          <div class="session-progress"><i id="sessionProgress"></i></div>
+          <div class="session-times"><span>09:30 ET <small>OPEN</small></span><span>16:00 ET <small>CLOSE</small></span></div>
+          <p id="sessionCopy">Die Uhr läuft unabhängig von den Kursdaten und dient nur zur Orientierung.</p>
+        </article>
+
+        <article class="safety card accent-red">
+          <div class="card-title-row"><div><span class="mini-label">SAFETY LOCK</span><h2>Echtgeld-Sperre</h2></div><span class="lock-icon">⌾</span></div>
+          <div class="live-lock">LIVE TRADING <b>BLOCKIERT</b></div>
+          <p>Frontend ist Anzeige und Planung. Keine Broker-Order, keine Auszahlung, keine automatische Kapitalerhöhung.</p>
+        </article>
+      </section>
+
+      <section class="money-ribbon">
+        <article class="money-card capital" id="openSettingsCard"><span>Strategie-Kapital</span><strong id="kpiCapital">—</strong><small>aktuell freigegeben</small><em>⚙ EINSTELLUNGEN</em></article>
+        <article class="money-card cash"><span>Cash verfügbar</span><strong id="kpiCash">—</strong><small>Grundkapital verfügbar</small></article>
+        <article class="money-card invested"><span>Investiert</span><strong id="kpiInvested">—</strong><small>aktuelle Kostenbasis</small></article>
+        <article class="money-card pnl"><span>Offenes G/V</span><strong id="kpiOpenPnl">—</strong><small>Shadow-Positionen</small></article>
+        <article class="money-card day"><span>Tagesergebnis</span><strong id="kpiDayPnl">—</strong><small>realisiert / falls verfügbar</small></article>
+        <article class="money-card vault"><span>Gewinn-Tresor</span><strong id="kpiVault">—</strong><small>nicht automatisch reinvestiert</small></article>
+        <article class="money-card tax"><span>Steuerreserve</span><strong id="kpiTax">—</strong><small>technische Schätzung</small></article>
+        <article class="money-card risk"><span>Gesamtrückgang</span><strong id="kpiDrawdown">—</strong><small>gegen Sicherheitslimit</small></article>
+      </section>
+
+      <section class="watch card">
+        <div class="section-head">
+          <div><span class="mini-label">WATCHLIST · 5 WERTE</span><h2>Entscheidungsradar</h2></div>
+          <div class="legend"><span class="dot buy"></span>KAUF <span class="dot wait"></span>WARTEN <span class="dot sell"></span>VERKAUF <span class="dot block"></span>BLOCKIERT</div>
+        </div>
+        <div class="asset-grid" id="assetGrid"></div>
+      </section>
+
+      <section class="command-grid">
+        <article class="chart-card card accent-blue">
+          <div class="chart-head">
+            <div><span class="mini-label" id="selectedName">MICROSOFT · MSFT</span><div class="quote-line"><strong id="selectedPrice">—</strong><span id="selectedChange">—</span></div></div>
+            <div class="chart-meta"><span>Bid <b id="quoteBid">—</b></span><span>Ask <b id="quoteAsk">—</b></span><span>Spread <b id="quoteSpread">—</b></span><span>Data <b id="quoteType">—</b></span></div>
+          </div>
+          <div class="chart-wrap"><canvas id="priceChart" width="1200" height="420"></canvas><div class="chart-watermark">BARRY SENTINEL · READ ONLY</div><div class="no-chart" id="noChart">Kein Kursverlauf verfügbar</div></div>
+          <div class="timebar"><span id="chartSource">Quelle: V7 Historical</span><div><button class="tf active" data-points="48">4H</button><button class="tf" data-points="96">1D</button><button class="tf" data-points="192">2D</button></div></div>
+        </article>
+
+        <article class="decision card accent-amber">
+          <span class="mini-label">STRATEGIE-ENTSCHEIDUNG</span>
+          <div class="decision-badge wait" id="decisionBadge">WARTEN</div>
+          <div class="decision-head"><h2 id="decisionSymbol">MSFT</h2><span class="position-pnl" id="selectedPnl">Kein Trade</span></div>
+          <p id="decisionReason">Noch keine aktuelle V7-Entscheidung verfügbar.</p>
+          <div class="score-ring-wrap"><div class="score-ring" id="scoreRing"><span id="scoreValue">—</span><small>Score</small></div><div class="decision-facts"><div><span>Momentum</span><b id="factMomentum">—</b></div><div><span>Trend</span><b id="factTrend">—</b></div><div><span>Datenalter</span><b id="factAge">—</b></div><div><span>Position</span><b id="factPosition">—</b></div></div></div>
+          <div class="read-only-box"><b>READ ONLY</b><span>Entscheidung kommt aus V7. Dieses Cockpit sendet keine Orders.</span></div>
+        </article>
+
+        <article class="guard-panel card accent-green">
+          <span class="mini-label">6-FACH-SICHERHEIT</span><h2>Guard Matrix</h2><div id="guardList" class="guard-list"></div>
+        </article>
+      </section>
+
+      <section class="lower-grid">
+        <article class="allocation card accent-purple">
+          <div class="section-head compact"><div><span class="mini-label">KAPITALPLANUNG</span><h2>Dynamische Zielverteilung</h2></div><button class="tiny-btn" id="allocationSettings">Kapital ändern</button></div>
+          <div class="allocation-body"><div class="donut-wrap"><canvas id="allocationDonut"></canvas><div class="donut-center"><b id="donutCapital">—</b><small>Planungsbasis</small></div></div><div class="allocation-list" id="allocationList"></div></div>
+          <div class="planning-note"><b>PLANUNG</b> Die Verteilung ist eine Cockpit-Vorschau. Sie verändert weder V7 noch IBKR.</div>
+        </article>
+
+        <article class="positions card accent-cyan">
+          <div class="section-head compact"><div><span class="mini-label">SHADOW PORTFOLIO</span><h2>Offene Positionen</h2></div><span class="tiny-pill" id="positionCount">0 Positionen</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Symbol</th><th>Menge</th><th>Einstieg</th><th>Aktuell</th><th>P/L</th><th>Status</th></tr></thead><tbody id="positionsBody"></tbody></table></div>
+        </article>
+
+        <article class="activity card accent-blue">
+          <div class="section-head compact"><div><span class="mini-label">SYSTEM-FEED</span><h2>Letzte Zustände</h2></div><span class="tiny-pill">Auto Refresh 5s</span></div>
+          <div class="feed" id="feed"></div>
+        </article>
+      </section>
+    </section>
+
+    <section class="page" id="page-portfolio">
+      <section class="page-title card accent-purple"><div><span class="mini-label">PORTFOLIO</span><h2>Kapital, Performance & Shadow-Ledger</h2></div><button class="btn settings" id="settingsPortfolio">⚙ Kapital & Regeln</button></section>
+      <div class="performance-grid">
+        <article class="card perf-card green"><span>Offenes G/V</span><strong id="portfolioOpenPnl">—</strong><small>laufende Shadow-Positionen</small></article>
+        <article class="card perf-card cyan"><span>Tagesergebnis</span><strong id="portfolioDayPnl">—</strong><small>realisiert</small></article>
+        <article class="card perf-card purple"><span>Wochen-Ergebnis</span><strong id="portfolioWeekPnl">—</strong><small>realisiert</small></article>
+        <article class="card perf-card amber"><span>Gebühren</span><strong id="portfolioFees">—</strong><small>falls im Ledger vorhanden</small></article>
+      </div>
+      <div class="three-grid">
+        <article class="card info-card"><span class="mini-label">KAPITALLOGIK</span><h3>Grundkapital</h3><strong id="portfolioCapital">—</strong><p>Nur freigegebene Strategie-Kapitalbasis. Gewinne bleiben separat.</p></article>
+        <article class="card info-card"><span class="mini-label">RESERVE</span><h3>Mindest-Cashreserve</h3><strong id="portfolioReserve">—</strong><p>Dieser Betrag soll nicht für neue Einstiege verplant werden.</p></article>
+        <article class="card info-card"><span class="mini-label">KAPAZITÄT</span><h3>Max. offene Positionen</h3><strong id="portfolioMaxPositions">—</strong><p>Gleichzeitig und unabhängig überwachte Positionen.</p></article>
+      </div>
+      <article class="card full-card"><div class="section-head compact"><div><span class="mini-label">SIGNAL ALLOCATION</span><h2>Watchlist & Gewichtung</h2></div></div><div class="portfolio-list" id="portfolioList"></div></article>
+    </section>
+
+    <section class="page" id="page-risk">
+      <section class="page-title card accent-red"><div><span class="mini-label">RISK ENGINE</span><h2>Limits & Schutzschichten</h2></div><div><span class="tiny-pill" id="riskOverall">Wird geladen…</span> <button class="btn settings" id="settingsRisk">⚙ Einstellungen</button></div></section>
+      <div class="risk-grid">
+        <article class="card risk-card"><span>Max. Risiko / Trade</span><strong id="riskPerTrade">—</strong></article>
+        <article class="card risk-card"><span>Max. Tagesverlust</span><strong id="riskDay">—</strong></article>
+        <article class="card risk-card"><span>Max. Wochenverlust</span><strong id="riskWeek">—</strong></article>
+        <article class="card risk-card"><span>Max. Gesamtrückgang</span><strong id="riskDD">—</strong></article>
+        <article class="card risk-card"><span>Max. Trades / Tag</span><strong id="riskTrades">—</strong></article>
+        <article class="card risk-card"><span>Cooldown</span><strong id="riskCooldown">—</strong></article>
+      </div>
+      <article class="card full-card"><div class="section-head compact"><div><span class="mini-label">GUARD MATRIX</span><h2>Aktuelle Freigaben</h2></div></div><div class="guard-matrix" id="guardMatrix"></div></article>
+      <article class="card full-card"><div class="section-head compact"><div><span class="mini-label">COCKPIT-PLAN</span><h2>Gespeicherte Kapital-/Risikoeinstellungen</h2></div><span class="tiny-pill">lokal im Browser</span></div><div class="settings-summary" id="settingsSummary"></div></article>
+    </section>
+
+    <section class="page" id="page-system">
+      <section class="page-title card accent-blue"><div><span class="mini-label">SYSTEM</span><h2>Backend, Dateien & Runtime</h2></div><span class="tiny-pill">Read-only Bridge</span></section>
+      <div class="system-grid">
+        <article class="card system-card"><span>Backend-Pfad</span><code id="backendPath">—</code></article>
+        <article class="card system-card"><span>Health</span><strong id="systemHealth">—</strong></article>
+        <article class="card system-card"><span>Runtime / Daemon</span><strong id="systemRuntime">—</strong></article>
+        <article class="card system-card"><span>Broker Reconciliation</span><strong id="systemRecon">—</strong></article>
+        <article class="card system-card"><span>Cost Guard</span><strong id="systemCost">—</strong></article>
+        <article class="card system-card"><span>Marktdaten</span><strong id="systemMarket">—</strong></article>
+      </div>
+      <article class="card full-card"><div class="section-head compact"><div><span class="mini-label">QUELLDATEIEN</span><h2>Zuletzt gelesene V7-Dateien</h2></div></div><div class="file-list" id="sourceFiles"></div></article>
+      <article class="card full-card warning-card"><b>Öffentliches GitHub ≠ privates Backend</b><p>Frontend darf separat versioniert werden. V7 data, logs, Konto-Snapshots, Zugangsdaten, Tokens und lokale private Konfiguration gehören nicht in ein öffentliches Repository.</p></article>
+    </section>
+
+    <section class="page" id="page-roadmap">
+      <section class="page-title card accent-cyan"><div><span class="mini-label">ROADMAP</span><h2>Vom Cockpit bis zur kontrollierten Live-Phase</h2></div><span class="tiny-pill">Keine Gewinngarantie</span></section>
+      <div class="roadmap">
+        <div class="road done"><span>01</span><div><b>V7 Paper/Shadow-Architektur</b><small>Module, Ledger, Risk, Health, Reconciliation, Cost Guard</small></div></div>
+        <div class="road current"><span>02</span><div><b>V7 Cockpit & Bedienung</b><small>Visuelle Oberfläche, echte lokale V7-Daten, Kapitalplanung</small></div></div>
+        <div class="road"><span>03</span><div><b>Markt-offener End-to-End-Test</b><small>Vollständiger Readiness-Lauf mit nutzbaren Marktdaten</small></div></div>
+        <div class="road"><span>04</span><div><b>Mehrere Paper-Handelstage</b><small>Forward-Test mit realen Marktphasen, Paper-Aktionen und Performance-Auswertung</small></div></div>
+        <div class="road"><span>05</span><div><b>Start / Stop / Status / Not-Aus</b><small>Bedienung ohne viele Einzelbefehle; sichere Prozesssteuerung</small></div></div>
+        <div class="road"><span>06</span><div><b>Privater VPS / 24×7</b><small>Automatischer Neustart, Health-Checks, private URL und 2FA</small></div></div>
+        <div class="road locked"><span>07</span><div><b>Getrennte Live-Prüfung</b><small>Erst nach stabiler Paper-Validierung und ausdrücklicher Freigabe</small></div></div>
+      </div>
+    </section>
+
+    <footer><span>Barry Sentinel V7 · Barry Moneycome WOW Cockpit</span><span>Paper / Shadow · Read-only · Live Trading Blocked</span></footer>
+  </main>
+
+  <div class="modal" id="settingsModal">
+    <div class="modal-box">
+      <div class="modal-head"><div><span class="mini-label">CONTROL DECK</span><h2>Kapital- & Risikoeinstellungen</h2><p>Diese Werte werden lokal im Cockpit gespeichert. Sie ändern V7/IBKR noch nicht.</p></div><button class="modal-close" id="closeSettings">×</button></div>
+      <div class="settings-warning"><b>SICHERHEIT:</b> „Cockpit-Plan speichern“ ist nur Planung/Demo. Eine spätere echte V7-Kapitaländerung braucht eine getrennte, bestätigte Write-Schnittstelle.</div>
+      <div class="settings-grid">
+        <label><span>Freigegebenes Grundkapital (€)</span><input id="capitalInput" type="number" min="25" max="100000" step="25"></label>
+        <label><span>Mindest-Cashreserve (€)</span><input id="reserveInput" type="number" min="0" max="10000" step="5"></label>
+        <label><span>Max. Positionen</span><input id="maxPositionsInput" type="number" min="1" max="5" step="1"></label>
+        <label><span>Max. Risiko je Position (€)</span><input id="riskTradeInput" type="number" min="0.10" max="1000" step="0.10"></label>
+        <label><span>Max. offenes Portfoliorisiko (€)</span><input id="portfolioRiskInput" type="number" min="0.25" max="5000" step="0.25"></label>
+        <label><span>Portfolio-Notverkauf ab Verlust (€)</span><input id="portfolioLossInput" type="number" min="0.50" max="5000" step="0.50"></label>
+        <label><span>Tagesverlust-Stopp (€)</span><input id="dailyStopInput" type="number" min="0.50" max="5000" step="0.50"></label>
+        <label><span>Wochenverlust-Stopp (€)</span><input id="weeklyStopInput" type="number" min="1" max="10000" step="1"></label>
+        <label><span>Max. Gesamtrückgang (€)</span><input id="drawdownInput" type="number" min="1" max="100000" step="1"></label>
+        <label><span>Max. neue Trades / Tag</span><input id="maxTradesInput" type="number" min="1" max="10" step="1"></label>
+        <label><span>Mindestsignal für Kauf (%)</span><input id="minScoreInput" type="number" min="50" max="99" step="1"></label>
+        <label><span>Max. Spread (%)</span><input id="maxSpreadInput" type="number" min="0.01" max="3" step="0.01"></label>
+        <label><span>Grund-Stop-Loss (%)</span><input id="stopPctInput" type="number" min="0.20" max="10" step="0.10"></label>
+        <label><span>Erstes Gewinnziel (%)</span><input id="targetPctInput" type="number" min="0.30" max="20" step="0.10"></label>
+        <label><span>Gewinnschutz / Trailing</span><select id="trailingInput"><option value="true">Aktiv</option><option value="false">Inaktiv</option></select></label>
+        <label><span>Pause nach Gewinn (Min.)</span><input id="winCooldownInput" type="number" min="0" max="1440" step="5"></label>
+        <label><span>Pause nach Verlust (Min.)</span><input id="lossCooldownInput" type="number" min="0" max="1440" step="5"></label>
+        <label><span>Steuerreserve-Schätzung (%)</span><input id="taxPctInput" type="number" min="0" max="50" step="0.1"></label>
+      </div>
+      <div class="modal-actions"><button class="btn ghost" id="resetSettings">Standard 100 €</button><button class="btn disabled" disabled title="Wird erst in einer getrennten sicheren Backend-Phase freigeschaltet">V7 anwenden · gesperrt</button><button class="btn ibkr" id="saveSettings">Cockpit-Plan speichern</button></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="assets/app.js"></script>
+</body>
+</html>

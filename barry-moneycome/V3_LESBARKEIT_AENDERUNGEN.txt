@@ -1,0 +1,23 @@
+BARRY SENTINEL V7 — READABLE V3
+================================
+
+Diese Version ändert NICHT die V7-Handelslogik.
+Sie optimiert ausschließlich die Cockpit-Darstellung.
+
+Verbessert:
+- deutlich größere Schrift und bessere Kontraste
+- geringere Informationsdichte auf großen Bildschirmen
+- Kopfzeile überlagert beim Scrollen keine Inhalte mehr
+- größere Zahlen, Labels, Buttons und Statusfelder
+- Watchlist auf Smartphones als horizontale Swipe-Karten
+- Smartphone-Navigation in großen Touch-Feldern
+- Kapital-/Regel-Einstellungen auf dem Handy einspaltig und gut lesbar
+- Eingabefelder auf Smartphones 16 px groß (kein unerwünschtes iPhone-Zoomen)
+- Tabellen bleiben lesbar und können horizontal gescrollt werden
+- System-Feed auf dem Handy nicht in ein winziges Innenfenster gequetscht
+- Desktop-Cockpit auf eine angenehmere maximale Breite begrenzt
+
+SICHERHEIT:
+- Backend bleibt unverändert.
+- Cockpit bleibt Read-only.
+- Live Trading bleibt blockiert.
