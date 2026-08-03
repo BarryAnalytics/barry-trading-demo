@@ -1,5 +1,32 @@
-Mrs. Barry V4 Neon Live Effects Edition
-- Upload so the path becomes mrs-barry/index.html in the repository.
-- Sound starts after the first interaction because browsers block autoplay before user interaction.
-- The owner can switch sound ON/OFF and adjust volume.
-- Do not store broker passwords, 2FA codes, bank details or sensitive identity data in this file.
+MRS. BARRY V5 — GITHUB UPLOAD
+=============================
+
+Folder contents:
+mrs-barry/
+  index.html
+  guide.html
+  README_UPLOAD.txt
+
+WHAT IS NEW
+-----------
+- Larger Market Library with examples across Forex, Gold/Commodities, Indices, Shares and Crypto CFDs
+- Owner can activate/deactivate markets for the robot
+- Auto Select / Recommendation / Owner Selection modes
+- Simulated automatic BUY and SELL demo positions
+- Automatic Stop Loss, profit target, trailing protection and opposite-signal exits
+- Profit Vault, realised loss, open P&L and total result
+- Robot History / diary showing what the robot did and why
+- Separate English Learning Center page
+- Pepperstone vs MetaTrader 5 explanation
+- M-PESA / KES funding guidance
+- Sound and volume control
+
+IMPORTANT
+---------
+This is a public simulation only.
+It cannot place real Pepperstone or MT5 orders.
+Do not store broker passwords, bank details, M-PESA PINs, card numbers, passport data or 2FA codes in these files.
+
+REAL CONNECTION LATER
+---------------------
+Public HTML -> secure backend -> MT5 Expert Advisor / supported broker integration -> Pepperstone account.
