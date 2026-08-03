@@ -831,3 +831,162 @@ footer{
   .score-ring-wrap{grid-template-columns:1fr}
   .score-ring{margin:0 auto}
 }
+
+
+/* ======================================================================
+   BARRY SENTINEL V7 — V4 FREEZE + FEED READABILITY
+   User-requested pass:
+   1) Header + ticker fixed like an Excel frozen top row (desktop/tablet)
+   2) Larger System Feed text without unnecessarily increasing page length
+   3) Mobile remains comfortable and does NOT waste screen height with a
+      permanently frozen multi-row desktop header.
+   ====================================================================== */
+
+/* Desktop/tablet frozen zone.
+   It remains in normal document flow, so it does not cover the content. */
+.freeze-zone{
+  position:sticky;
+  top:8px;
+  z-index:70;
+  padding:0 0 8px;
+  margin:0 0 2px;
+  background:
+    linear-gradient(180deg,rgba(2,10,17,.985) 0%,rgba(2,10,17,.965) 82%,rgba(2,10,17,.88) 100%);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-radius:0 0 18px 18px;
+  box-shadow:0 18px 34px rgba(0,0,0,.23);
+}
+
+/* Header is controlled by the parent freeze-zone; avoid nested sticky logic. */
+.freeze-zone .topbar{
+  position:relative !important;
+  top:auto !important;
+  z-index:auto;
+}
+
+/* Keep a clean, narrow visual gap inside the frozen block. */
+.freeze-zone .ticker{
+  margin-bottom:0;
+}
+
+/* System Feed: use the available horizontal room for typography,
+   rather than creating taller cards. */
+.activity .section-head h2{
+  font-size:24px;
+  letter-spacing:-.02em;
+}
+.activity .mini-label{
+  font-size:12px;
+}
+.activity .tiny-pill{
+  font-size:10.5px;
+  padding:9px 12px;
+}
+.activity .feed{
+  gap:9px;
+  max-height:330px;
+}
+.activity .feed-item{
+  display:grid;
+  grid-template-columns:minmax(155px,210px) 1fr;
+  align-items:center;
+  column-gap:20px;
+  min-height:68px;
+  padding:14px 18px;
+}
+.activity .feed-item b{
+  font-size:14px;
+  line-height:1.25;
+  color:#f3fcff;
+  letter-spacing:-.01em;
+}
+.activity .feed-item small{
+  display:block;
+  margin:0;
+  font-size:12.5px;
+  line-height:1.45;
+  font-weight:650;
+  color:#a9c4ce;
+}
+
+/* Slightly lift a few globally small labels without changing card heights. */
+.hero-kicker,
+.section-head .mini-label,
+.page-title .mini-label{
+  font-size:11.5px;
+}
+.planning-note{
+  font-size:9.5px;
+}
+footer{
+  font-size:9.5px;
+}
+
+/* On narrower laptops, keep the frozen header useful but compact. */
+@media(max-width:1050px) and (min-width:681px){
+  .freeze-zone{
+    top:4px;
+  }
+  .freeze-zone .topbar{
+    padding-top:13px;
+    padding-bottom:13px;
+  }
+  .freeze-zone .ticker{
+    min-height:42px;
+  }
+  .activity .feed-item{
+    grid-template-columns:150px 1fr;
+  }
+}
+
+/* Smartphone:
+   Do not freeze the full multi-row header because it would occupy too much
+   vertical screen space. Mobile remains readable and scroll-friendly. */
+@media(max-width:680px){
+  .freeze-zone{
+    position:relative;
+    top:auto;
+    z-index:auto;
+    padding:0;
+    margin:0;
+    background:transparent;
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+    box-shadow:none;
+    border-radius:0;
+  }
+
+  .activity .section-head{
+    align-items:center;
+  }
+  .activity .section-head h2{
+    font-size:22px;
+  }
+  .activity .mini-label{
+    font-size:10.5px;
+  }
+  .activity .feed{
+    max-height:none;
+    overflow:visible;
+  }
+  .activity .feed-item{
+    grid-template-columns:1fr;
+    gap:5px;
+    min-height:auto;
+    padding:14px;
+  }
+  .activity .feed-item b{
+    font-size:14px;
+  }
+  .activity .feed-item small{
+    font-size:12px;
+    line-height:1.5;
+  }
+}
+
+/* Very small phones: keep status text comfortably readable. */
+@media(max-width:390px){
+  .activity .feed-item b{font-size:13.5px}
+  .activity .feed-item small{font-size:11.5px}
+}

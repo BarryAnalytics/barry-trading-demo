@@ -1,0 +1,31 @@
+BARRY SENTINEL V7 — GITHUB SAFE V5
+=================================
+
+Warum diese Version existiert:
+Der Screenshot der veröffentlichten GitHub-Pages-Seite zeigte reines HTML ohne
+Cockpit-Design, laufende Uhren oder Ticker. Das bedeutet: index.html wurde geladen,
+aber CSS und JavaScript aus /assets wurden auf der veröffentlichten Seite nicht
+mitgeladen.
+
+V5 behebt das robust:
+- CSS ist direkt in index.html eingebettet.
+- JavaScript ist direkt in index.html eingebettet.
+- GitHub Pages braucht für die sichtbare Web-Demo nur noch index.html.
+- Der assets-Ordner bleibt nur als Entwicklungs-/Backup-Kopie bestehen.
+- Sticky Header + Ticker aus V4 bleiben enthalten.
+- Lesbarkeits- und Handyoptimierungen aus V3/V4 bleiben enthalten.
+- Auf einer öffentlichen GitHub-Seite wechselt das Cockpit automatisch in die
+  klar gekennzeichnete simulierte Demo, weil /api/status dort nicht existiert.
+- Lokal über START_BARRY_COCKPIT.bat kann dieselbe index.html weiterhin die
+  lokalen V7-Daten über /api/status lesen.
+
+SICHERHEIT:
+- Kein Broker-Orderversand aus dem Cockpit.
+- Kein Live-Trading.
+- V7-Hauptordner bleibt unverändert.
+
+GITHUB-UPDATE:
+1. Im Repository den Ordner barry-moneycome öffnen.
+2. Die dortige index.html durch die V5-index.html ersetzen.
+3. Commit abwarten.
+4. GitHub-Pages-Link neu laden, ggf. STRG+F5.

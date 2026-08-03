@@ -1,0 +1,27 @@
+BARRY SENTINEL V7 — READABLE STICKY V4
+======================================
+
+Diese Version baut auf READABLE + MOBILE V3 auf.
+
+Neu nach der Bildschirmprüfung:
+1. Desktop/Tablet:
+   - Kopfbereich (Logo/Titel/Modus/Uhren) UND Aktien-Ticker bleiben beim
+     Scrollen oben fixiert — wie eine in Excel fixierte obere Zeile.
+   - Die Navigation darunter darf normal mitscrollen.
+   - Die Fixierung bleibt im Dokumentfluss und verdeckt den Inhalt nicht.
+
+2. System-Feed / "Letzte Zustände":
+   - Backend, Health, Marktdaten, Risk usw. deutlich größer.
+   - Die Statusbeschreibung nutzt die freie Breite rechts.
+   - Keine unnötige Verlängerung der Seite nur wegen größerer Schrift.
+
+3. Smartphone:
+   - Die große mehrzeilige Kopfzone wird absichtlich NICHT dauerhaft fixiert,
+     damit sie nicht einen großen Teil des Handybildschirms belegt.
+   - Feed-Schriften bleiben groß.
+   - Karten, Einstellungen, Watchlist und Tabellen behalten die V3-Mobiloptimierung.
+
+WICHTIG:
+- Barry_Sentinel_V7_IBKR_Paper wurde NICHT verändert.
+- Kein Orderversand durch das Cockpit.
+- Live Trading bleibt blockiert.
