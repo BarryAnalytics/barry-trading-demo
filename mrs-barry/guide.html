@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mrs. Barry — Simple Trading Guide</title>
+<title>Mrs. Barry V6 — Simple Trading Guide</title>
 <style>
 :root{--bg:#031014;--card:#0b242a;--line:rgba(77,242,220,.18);--text:#effffc;--muted:#9bb9b6;--a:#4df2dc;--g:#39dd8b;--w:#ffc95e;--r:#ff667d}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#02090c,#06171b);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}.wrap{max-width:1100px;margin:auto;padding:22px 14px 55px}.hero,.card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(155deg,rgba(14,43,50,.96),rgba(5,18,24,.98));box-shadow:0 20px 60px rgba(0,0,0,.3)}.hero{padding:22px;margin-bottom:12px}.hero small{color:var(--a);font-weight:900}.hero h1{font-size:32px;margin:7px 0}.hero p{color:#c9dfdc;line-height:1.6}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{padding:17px}.card h2{font-size:17px;margin:0 0 8px}.card h3{font-size:13px;margin:16px 0 6px;color:var(--a)}.card p,.card li{font-size:12px;color:#c8dcda;line-height:1.65}.good{color:var(--g)}.warn{color:var(--w)}.bad{color:var(--r)}.flow{display:grid;gap:8px}.step{padding:11px;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.02)}.step b{color:var(--a)}.note{padding:11px;border:1px solid rgba(255,201,94,.22);border-radius:11px;background:rgba(255,201,94,.05);color:#ffe7ab;font-size:11px;line-height:1.6}.toplink{display:inline-block;color:#021310;background:var(--a);padding:9px 12px;border-radius:10px;text-decoration:none;font-weight:900;font-size:11px;margin-top:10px}.footer{color:var(--muted);font-size:10px;margin-top:14px;text-align:center}@media(max-width:760px){.grid{grid-template-columns:1fr}.hero h1{font-size:25px}}
@@ -19,6 +19,17 @@
  <section class="card"><h2>6. Funding in Kenya / M-PESA</h2><p>If M-PESA is available for your Pepperstone account/region, use the official Pepperstone funding area to choose it. Your dashboard can remember “M-PESA” as a preference, but it should never store your M-PESA PIN, bank credentials, card number, broker password or 2FA code.</p><p>Your broker account may still be denominated in a currency such as USD even when your personal display currency is KES. Currency conversion may therefore apply.</p></section>
  <section class="card"><h2>7. What this current demo already does</h2><ul><li>Shows more than seven example markets in a Market Library.</li><li>Lets you choose which markets the robot monitors.</li><li>Generates simulated BUY / WAIT / SELL decisions.</li><li>Can open and close simulated positions automatically.</li><li>Uses Stop Loss, profit targets, trailing protection and opposite signals.</li><li>Tracks Profit Vault, realised loss, open P&amp;L and total result.</li><li>Creates a Robot History explaining entries, exits, profits and losses.</li></ul></section>
  <section class="card"><h2>8. What is still required for real trading</h2><p>The public HTML cannot safely place Pepperstone orders by itself. A real version needs a secure backend plus an MT5 Expert Advisor or another supported broker integration, account/server configuration, secure authentication, testing and explicit live activation.</p><div class="note"><b>Live trading must stay locked until the demo connection and safety rules have been tested thoroughly.</b></div></section>
+
+<section class="card"><h2>9. What does the “Official Broker Portal URL” do?</h2>
+<p>The recommended shortcut in the dashboard points to an official <b>pepperstone.com</b> login page. Saving that link does only one thing: when you later press <b>Open Official Broker Portal</b>, the browser opens Pepperstone in a separate tab.</p>
+<p><b>It does not connect Mrs. Barry to Pepperstone.</b> It does not import your balance, positions, market prices or account information, and it does not receive your password or 2FA code.</p>
+<p>To show real Pepperstone information inside the Mrs. Barry dashboard, the future version needs a secure backend plus a supported Pepperstone/MT5 integration. Keep all login, payment and authentication details inside the official broker environment.</p>
+</section>
+<section class="card"><h2>10. Reading your demo day</h2>
+<p>At the top of the V6 dashboard you can now see the amount the demo started with, realised profit, realised loss, net realised result, closed trade count, current open P&amp;L and Profit Vault.</p>
+<p>When the simulation closes a profitable position, it shows a clear congratulations message and records the amount in the Profit Vault and Robot History. When a losing position is closed for protection, the loss is also recorded clearly. These values are simulated learning data, not broker money.</p>
+</section>
+
 </div>
 <div class="footer">Educational guide for the Mrs. Barry project · No profit guarantee · Trading CFDs can result in losses.</div>
 </div></body></html>

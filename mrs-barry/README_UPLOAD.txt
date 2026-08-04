@@ -1,32 +1,44 @@
-MRS. BARRY V5 — GITHUB UPLOAD
+MRS. BARRY V6 — GITHUB UPDATE
 =============================
 
-Folder contents:
-mrs-barry/
-  index.html
-  guide.html
-  README_UPLOAD.txt
+Recommended update method:
+1. Open the existing GitHub folder: mrs-barry
+2. Replace its current index.html with this V6 index.html.
+3. Replace guide.html with this V6 guide.html.
+4. Commit both files.
+5. Wait briefly for GitHub Pages to publish.
+6. On Mrs. Barry's device open:
+   https://barryanalytics.github.io/barry-trading-demo/mrs-barry/?v=6
+   The ?v=6 is only a cache-busting version marker.
 
-WHAT IS NEW
------------
-- Larger Market Library with examples across Forex, Gold/Commodities, Indices, Shares and Crypto CFDs
-- Owner can activate/deactivate markets for the robot
-- Auto Select / Recommendation / Owner Selection modes
-- Simulated automatic BUY and SELL demo positions
-- Automatic Stop Loss, profit target, trailing protection and opposite-signal exits
-- Profit Vault, realised loss, open P&L and total result
-- Robot History / diary showing what the robot did and why
-- Separate English Learning Center page
-- Pepperstone vs MetaTrader 5 explanation
-- M-PESA / KES funding guidance
-- Sound and volume control
+If she still sees an older version:
+- refresh the page
+- close/reopen the tab
+- use a private/incognito tab
+- clear browser cache for the site
 
-IMPORTANT
----------
-This is a public simulation only.
-It cannot place real Pepperstone or MT5 orders.
-Do not store broker passwords, bank details, M-PESA PINs, card numbers, passport data or 2FA codes in these files.
+OFFICIAL BROKER PORTAL FIELD
+----------------------------
+The V6 default shortcut is:
+https://pepperstone.com/en-gb/log-in
 
-REAL CONNECTION LATER
----------------------
-Public HTML -> secure backend -> MT5 Expert Advisor / supported broker integration -> Pepperstone account.
+It is only an official Pepperstone login shortcut.
+It does NOT connect the public HTML dashboard to Pepperstone or MT5.
+Real balances/positions/order data require a future secure backend + supported integration.
+
+V6 NEW
+------
+- Today Started With / Realised Profit / Realised Loss / Net Realised
+- Wins / losses / closed trades
+- Live Demo Story
+- clear profit celebration + Profit Vault message
+- loss / protection message
+- Demo Pace: Calm / Active / Fast
+- more visible auto-demo trade lifecycle
+- broker URL explanation and safe pepperstone.com-only shortcut
+- updated English learning guide
+
+SAFETY
+------
+This is a simulation.
+Never store broker passwords, M-PESA PINs, bank/card details or 2FA codes in public GitHub files.

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#041014">
 <meta name="color-scheme" content="dark">
-<title>Mrs. Barry V5 — Personal Trading Assistant</title>
+<title>Mrs. Barry V6 — Personal Trading Assistant</title>
 <style>
 :root{
  --bg:#031014;--bg2:#071b20;--panel:#0a2329;--panel2:#0d2b32;--line:rgba(93,255,230,.16);
@@ -45,6 +45,75 @@ button,input,select{font:inherit}.good{color:var(--green)!important}.bad{color:v
 @media(max-width:1300px){.stats{grid-template-columns:repeat(4,1fr)}.market-grid{grid-template-columns:repeat(3,1fr)}.guide-cards{grid-template-columns:1fr 1fr}.settings{grid-template-columns:1fr 1fr}}
 @media(max-width:1000px){.app{grid-template-columns:80px 1fr}.brand>div:last-child,.nav span,.sidefoot{display:none}.brand{justify-content:center}.nav button{text-align:center}.hero,.main-grid,.lower{grid-template-columns:1fr}.market-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:700px){.app{display:block}.side{display:none}.main{padding:10px 9px 78px}.top h2{font-size:20px}.top-actions .lbl{display:none}.stats{grid-template-columns:1fr 1fr}.market-grid{grid-template-columns:1fr 1fr}.guide-cards,.settings{grid-template-columns:1fr}.chart{height:235px}.mobile{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:70;background:rgba(3,13,17,.96);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}.mobile button{border:0;background:transparent;color:var(--muted);padding:8px 2px;font-size:8px}.mobile button.active{color:var(--aqua)}.mobile b{display:block;font-size:16px}}
+
+/* ======================= MRS. BARRY V6 — LIVE DEMO STORY ======================= */
+.story-strip{
+  display:grid;grid-template-columns:1.15fr repeat(5,1fr);gap:8px;margin-bottom:12px
+}
+.story-card{
+  position:relative;overflow:hidden;padding:12px;border:1px solid var(--line);border-radius:14px;
+  background:linear-gradient(155deg,rgba(14,43,50,.94),rgba(5,18,24,.97))
+}
+.story-card.hero-story{
+  background:radial-gradient(circle at 0 0,rgba(77,242,220,.13),transparent 45%),
+             linear-gradient(155deg,rgba(14,43,50,.96),rgba(5,18,24,.98))
+}
+.story-card small{display:block;color:var(--muted);font-size:8px}
+.story-card b{display:block;font-size:17px;margin-top:6px}
+.story-card p{margin:5px 0 0;color:#c8ddda;font-size:8.5px;line-height:1.45}
+.robot-live{
+  display:flex;align-items:center;gap:8px;font-size:10px;font-weight:950;color:var(--aqua)
+}
+.robot-live i{width:9px;height:9px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 0 6px rgba(57,221,139,.08),0 0 18px rgba(57,221,139,.55);animation:robotPulse 1.5s infinite}
+@keyframes robotPulse{50%{transform:scale(1.25);opacity:.62}}
+
+.broker-explain{
+  margin:0 12px 12px;padding:12px 13px;border:1px solid rgba(99,170,255,.24);border-radius:12px;
+  background:rgba(99,170,255,.055);font-size:9.5px;color:#cfe1f8;line-height:1.6
+}
+.broker-explain b{color:#a8caff}.broker-explain .goodline{color:#a8ffd0}
+.field.broker-field{grid-column:span 2;border-color:rgba(99,170,255,.18)}
+.field.broker-field .broker-tools{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.field.broker-field .broker-tools button{font-size:9px}
+
+.live-story{
+  margin-top:12px;border:1px solid rgba(181,140,255,.17);border-radius:15px;
+  background:radial-gradient(circle at 100% 0,rgba(181,140,255,.09),transparent 38%),rgba(255,255,255,.015)
+}
+.live-story .feeditem{position:relative;padding-left:35px}
+.live-story .feeditem:before{
+  content:"";position:absolute;left:15px;top:15px;width:8px;height:8px;border-radius:50%;
+  background:var(--aqua);box-shadow:0 0 13px rgba(77,242,220,.45)
+}
+.live-story .feeditem.profit:before{background:var(--green);box-shadow:0 0 13px rgba(57,221,139,.55)}
+.live-story .feeditem.loss:before{background:var(--red);box-shadow:0 0 13px rgba(255,102,125,.55)}
+
+.celebrate{
+  position:fixed;inset:0;z-index:120;display:none;place-items:center;pointer-events:none;
+  background:radial-gradient(circle,rgba(57,221,139,.08),transparent 50%)
+}
+.celebrate.show{display:grid;animation:fadeCelebration 3.4s both}
+.celebrate-box{
+  min-width:min(460px,88vw);padding:20px 24px;border:1px solid rgba(57,221,139,.42);border-radius:18px;
+  background:linear-gradient(155deg,rgba(8,35,31,.98),rgba(4,18,21,.98));box-shadow:0 0 65px rgba(57,221,139,.18);
+  text-align:center
+}
+.celebrate-box.lossbox{border-color:rgba(255,102,125,.40);box-shadow:0 0 60px rgba(255,102,125,.13)}
+.celebrate-box small{color:var(--muted);font-size:9px}.celebrate-box h2{font-size:28px;margin:7px 0}
+.celebrate-box p{margin:0;color:#cfe1dd;font-size:11px;line-height:1.55}
+.confetti{position:absolute;inset:0;overflow:hidden}
+.confetti i{position:absolute;top:-20px;width:7px;height:16px;background:var(--aqua);opacity:.7;animation:fall 2.8s linear forwards}
+.confetti i:nth-child(3n){background:var(--green)}.confetti i:nth-child(3n+1){background:var(--amber)}
+@keyframes fall{to{transform:translateY(110vh) rotate(500deg);opacity:0}}
+@keyframes fadeCelebration{0%{opacity:0}8%,78%{opacity:1}100%{opacity:0}}
+
+.pacebox{display:flex;gap:7px;align-items:center;padding:7px 9px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.02)}
+.pacebox span{font-size:9px;color:var(--muted)}.pacebox select{background:#06171c;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:5px;font-size:9px}
+@media(max-width:1300px){.story-strip{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:800px){.story-strip{grid-template-columns:1fr 1fr}.field.broker-field{grid-column:span 1}}
+@media(max-width:520px){.story-strip{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -71,6 +140,7 @@ button,input,select{font:inherit}.good{color:var(--green)!important}.bad{color:v
   <div><h2 id="title">Mrs. Barry Trading Assistant</h2><p id="clock">Demo environment</p></div>
   <div class="top-actions">
    <div class="sound"><span id="soundLabel">🔊 Sound ON</span><input id="volume" type="range" min="0" max="100" value="38"></div>
+   <div class="pacebox"><span>Demo Pace</span><select id="demoPace"><option value="calm">Calm</option><option value="active" selected>Active</option><option value="fast">Fast</option></select></div>
    <button class="btn" id="guideBtn">? <span class="lbl">Guide</span></button>
    <button class="btn danger" id="stopBtn">⛔ <span class="lbl">Emergency Stop</span></button>
   </div>
@@ -93,6 +163,16 @@ button,input,select{font:inherit}.good{color:var(--green)!important}.bad{color:v
     <div class="mini"><small>Funding preference</small><b id="miniFunding">M-PESA</b></div>
     <div class="mini"><small>Robot mode</small><b id="miniMode">Full Auto Demo</b></div>
    </div>
+  </div>
+
+
+  <div class="story-strip">
+   <div class="story-card hero-story"><div class="robot-live"><i></i><span id="liveRobotText">ROBOT IS WATCHING</span></div><b id="storyLastAction">Monitoring markets</b><p id="storyLastActionDetail">Mrs. Barry is looking for a valid demo opportunity.</p></div>
+   <div class="story-card"><small>Today Started With</small><b id="todayStart">$100.00</b><p>Your demo starting capital for this session.</p></div>
+   <div class="story-card"><small>Realised Profit</small><b id="todayProfit" class="good">$0.00</b><p>Profits already secured in the Profit Vault.</p></div>
+   <div class="story-card"><small>Realised Loss</small><b id="todayLoss" class="bad">$0.00</b><p>Losses already closed and recorded.</p></div>
+   <div class="story-card"><small>Net Realised</small><b id="todayNet">$0.00</b><p>Realised profit minus realised loss.</p></div>
+   <div class="story-card"><small>Closed Trades</small><b id="closedTrades">0</b><p id="winLossText">0 wins · 0 losses</p></div>
   </div>
 
   <div class="stats">
@@ -134,6 +214,10 @@ button,input,select{font:inherit}.good{color:var(--green)!important}.bad{color:v
     <div class="feed" id="shortFeed"></div>
    </article>
   </div>
+  <article class="live-story card">
+   <div class="head"><div><h3>Live Demo Story</h3><span>Entries, exits, profit, loss and robot decisions in plain English</span></div><span id="lastTradeBadge">No closed trade yet</span></div>
+   <div class="feed" id="storyFeed" style="max-height:260px"></div>
+  </article>
  </section>
 
  <section id="markets" class="tab">
@@ -190,9 +274,12 @@ button,input,select{font:inherit}.good{color:var(--green)!important}.bad{color:v
     <div class="field"><label>Preferred Display Currency</label><select id="pDisplayCurrency"><option>KES</option><option>USD</option><option>EUR</option><option>GBP</option></select></div>
     <div class="field"><label>Display FX Rate</label><input id="pFx" type="number" min=".001" step=".001" value="130"><div class="help">Demo conversion only. Later this should use a real FX rate source.</div></div>
     <div class="field"><label>Preferred Funding Method</label><select id="pFunding"><option>M-PESA</option><option>Debit / Credit Card</option><option>Bank Transfer</option><option>PayPal</option><option>Skrill</option><option>Neteller</option><option>Other</option></select></div>
-    <div class="field"><label>Official Broker Portal URL</label><input id="pBrokerUrl" placeholder="https://..."><div class="help">The dashboard opens this exact HTTPS address only after she clicks the broker button. It does not send profile data or log in automatically.</div></div>
+    <div class="field broker-field"><label>Official Broker Portal URL</label><input id="pBrokerUrl" placeholder="https://pepperstone.com/..."><div class="help"><b>This is only a safe shortcut.</b> Saving a Pepperstone URL does NOT connect the robot to Pepperstone and does NOT import balances, positions or prices.</div><div class="broker-tools"><button class="btn" id="usePepperstoneLogin" type="button">Use Official Pepperstone Login</button><button class="btn" id="openSavedBroker" type="button">Test Saved Link</button></div></div>
     <div class="field"><label>Profile Status</label><select id="pStatus"><option value="draft">Draft / placeholders</option><option value="ready">Ready for demo use</option></select></div>
    </div>
+   <div class="broker-explain"><b>What happens after this link is saved?</b><br>
+   When you click <span class="goodline">Open Official Broker Portal</span>, Mrs. Barry opens that HTTPS page in a new browser tab. You then log in directly with Pepperstone. The dashboard does <b>not</b> receive your password, M-PESA PIN, 2FA code, account balance, positions or broker data.<br><br>
+   <b>For real Pepperstone information inside Mrs. Barry:</b> a secure backend + supported broker/MT5 connection is still required. That future connection is what can bring real balances, prices, positions and order status into the dashboard.</div>
    <div class="formactions"><button class="btn" id="openBroker">Open Official Broker Portal</button><button class="btn primary" id="saveProfile">Save Profile</button></div>
   </article>
  </section>
@@ -214,7 +301,7 @@ button,input,select{font:inherit}.good{color:var(--green)!important}.bad{color:v
     <div class="field"><label>Profit Notification Target</label><input id="sNotify" type="number" min="1" step="1"></div>
     <div class="field"><label>Profit Reinvestment</label><select id="sReinvest"><option value="false">OFF — keep Profit Vault separate</option><option value="true">ON — demo only</option></select></div>
     <div class="field"><label>Robot Selection Mode</label><select id="sSelection"><option value="auto">Auto Select Best Market</option><option value="owner">Owner Selection</option><option value="recommend">Recommendation Only</option></select></div>
-    <div class="field"><label>Trade Execution Mode</label><select id="sExecution"><option value="signal">Signal Only</option><option value="confirm">Confirmation Required</option><option value="auto">Full Auto Demo</option></select></div>
+    <div class="field"><label>Trade Execution Mode</label><select id="sExecution"><option value="signal">Signal Only</option><option value="confirm">Confirmation Required</option><option value="auto">Full Auto Demo</option></select></div><div class="field"><label>Demo Activity Pace</label><select id="sPace"><option value="calm">Calm</option><option value="active">Active</option><option value="fast">Fast</option></select><div class="help">Simulation speed only. It does not increase real trading performance.</div></div>
     <div class="field"><label>Allow Short / SELL Trades</label><select id="sShorts"><option value="true">Yes — demo only</option><option value="false">No</option></select></div>
    </div>
    <div class="formactions"><button class="btn" id="resetDemo">Reset Complete Demo</button><button class="btn primary" id="saveSettings">Save Settings</button></div>
@@ -228,6 +315,7 @@ button,input,select{font:inherit}.good{color:var(--green)!important}.bad{color:v
 </nav>
 
 <div class="modal" id="tradeModal"><div class="modalbox"><h3 id="modalTitle">Confirm Demo Trade</h3><p id="modalText"></p><div class="formactions" style="padding:8px 0 0"><button class="btn" id="cancelTrade">Cancel</button><button class="btn primary" id="confirmTrade">Confirm Demo Trade</button></div></div></div>
+<div class="celebrate" id="celebrate"><div class="confetti" id="confetti"></div><div class="celebrate-box" id="celebrateBox"><small id="celebrateSmall">TRADE CLOSED</small><h2 id="celebrateTitle">Congratulations!</h2><p id="celebrateText">Profit secured.</p></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -240,31 +328,36 @@ const marketDefs=[
  {s:"BTC/USD",n:"Bitcoin CFD",c:"Crypto CFD",p:117450,d:0},{s:"ETH/USD",n:"Ethereum CFD",c:"Crypto CFD",p:4190,d:0}
 ];
 const defaults={
- profile:{first:"",last:"",email:"",country:"Kenya",broker:"Pepperstone",platform:"MetaTrader 5",accountCurrency:"USD",displayCurrency:"KES",fx:130,funding:"M-PESA",brokerUrl:"",status:"draft"},
- settings:{capital:100,reserve:25,tradeCapital:25,maxPositions:1,maxLoss:2,dailyLoss:5,minScore:68,stopPct:.7,targetPct:1.0,trailPct:.35,notify:100,reinvest:false,selection:"auto",execution:"auto",shorts:true,maxMonitored:7},
+ profile:{first:"",last:"",email:"",country:"Kenya",broker:"Pepperstone",platform:"MetaTrader 5",accountCurrency:"USD",displayCurrency:"KES",fx:130,funding:"M-PESA",brokerUrl:"https://pepperstone.com/en-gb/log-in",status:"draft"},
+ settings:{capital:100,reserve:25,tradeCapital:25,maxPositions:1,maxLoss:2,dailyLoss:5,minScore:66,stopPct:.30,targetPct:.38,trailPct:.18,notify:100,reinvest:false,selection:"auto",execution:"auto",shorts:true,maxMonitored:7,pace:"active"},
  active:["EUR/USD","GBP/USD","USD/JPY","XAU/USD","NAS100","GER40","AAPL"],
- selected:"EUR/USD",stopped:false,vault:0,loss:0,positions:[],history:[],lastAuto:0,lastDecision:"",soundOn:true,volume:38
+ selected:"EUR/USD",stopped:false,vault:0,loss:0,positions:[],history:[],lastAuto:0,lastDecision:"",soundOn:true,volume:38,todayStart:100,wins:0,losses:0,closedTrades:0,lastClosed:"",pace:"active"
 };
-const saved=JSON.parse(localStorage.getItem("mrsBarryV5")||"{}");
+const saved=JSON.parse(localStorage.getItem("mrsBarryV6")||"{}");
 const st={...defaults,...saved,profile:{...defaults.profile,...(saved.profile||{})},settings:{...defaults.settings,...(saved.settings||{})}};
 if(!Array.isArray(st.active))st.active=[...defaults.active];if(!Array.isArray(st.positions))st.positions=[];if(!Array.isArray(st.history))st.history=[];
 const markets=marketDefs.map((d,i)=>({...d,series:Array.from({length:70},(_,k)=>d.p*(1+Math.sin((k+i)*.31)*.0017+(Math.random()-.5)*.0015))}));
 markets.forEach(m=>m.p=m.series.at(-1));
 const $=id=>document.getElementById(id),$$=q=>[...document.querySelectorAll(q)];
-const persist=()=>localStorage.setItem("mrsBarryV5",JSON.stringify(st));
+const persist=()=>localStorage.setItem("mrsBarryV6",JSON.stringify(st));
 const money=v=>new Intl.NumberFormat("en-US",{style:"currency",currency:st.profile.accountCurrency||"USD",maximumFractionDigits:2}).format(Number(v||0));
 const displayMoney=v=>{const c=st.profile.displayCurrency||st.profile.accountCurrency;let n=Number(v||0);if(c!==st.profile.accountCurrency)n*=Number(st.profile.fx||1);try{return new Intl.NumberFormat("en-US",{style:"currency",currency:c,maximumFractionDigits:2}).format(n)}catch{return c+" "+n.toFixed(2)}};
 const fmt=(m,v=m.p)=>Number(v).toFixed(m.d);
 function toast(t){const x=$("toast");x.textContent=t;x.classList.add("show");clearTimeout(window._to);window._to=setTimeout(()=>x.classList.remove("show"),2600)}
+function celebrate(kind,title,text){
+ const el=$("celebrate"),box=$("celebrateBox");$("celebrateSmall").textContent=kind==="profit"?"PROFIT SECURED":"RISK EXIT COMPLETED";$("celebrateTitle").textContent=title;$("celebrateText").textContent=text;box.className="celebrate-box"+(kind==="loss"?" lossbox":"");
+ $("confetti").innerHTML=kind==="profit"?Array.from({length:28},(_,i)=>`<i style="left:${(i*37)%100}%;animation-delay:${(i%8)*.08}s"></i>`).join(""):"";el.classList.remove("show");void el.offsetWidth;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),3400)
+}
+
 function showTab(id){$$(".tab").forEach(x=>x.classList.toggle("active",x.id===id));$$("[data-tab]").forEach(x=>x.classList.toggle("active",x.dataset.tab===id));window.scrollTo({top:0,behavior:"smooth"})}
 $$("[data-tab]").forEach(b=>b.onclick=()=>showTab(b.dataset.tab));$("guideBtn").onclick=()=>showTab("learning");$("openGuidePage").onclick=()=>window.open("guide.html","_blank","noopener");
 
 let ac=null;
 function tone(freq=600,d=.11,scale=.45){if(!st.soundOn)return;try{if(!ac)ac=new (window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain(),now=ac.currentTime;o.type="sine";o.frequency.value=freq;g.gain.setValueAtTime(.0001,now);g.gain.exponentialRampToValueAtTime(Math.max(.0001,(st.volume/100)*.05*scale),now+.015);g.gain.exponentialRampToValueAtTime(.0001,now+d);o.connect(g);g.connect(ac.destination);o.start();o.stop(now+d+.02)}catch{}}
 function cue(kind){if(kind==="BUY"){tone(760,.10,.8);setTimeout(()=>tone(980,.14,.7),80)}else if(kind==="SELL"){tone(430,.12,.7);setTimeout(()=>tone(330,.15,.65),90)}else if(kind==="PROFIT"){tone(900,.09,.9);setTimeout(()=>tone(1180,.16,.85),90)}else if(kind==="LOSS"){tone(330,.12,.65);setTimeout(()=>tone(245,.18,.6),90)}else tone(560,.08,.28)}
-$("volume").value=st.volume;$("volume").oninput=e=>{st.volume=+e.target.value;st.soundOn=st.volume>0;$("soundLabel").textContent=st.soundOn?"🔊 Sound ON":"🔇 Sound OFF";persist()};document.addEventListener("pointerdown",()=>{if(!ac)try{ac=new (window.AudioContext||window.webkitAudioContext)()}catch{}},{once:true});
+$("volume").value=st.volume;$("volume").oninput=e=>{st.volume=+e.target.value;st.soundOn=st.volume>0;$("soundLabel").textContent=st.soundOn?"🔊 Sound ON":"🔇 Sound OFF";persist()};$("demoPace").value=st.settings.pace||st.pace||"active";$("demoPace").onchange=e=>{st.settings.pace=e.target.value;st.pace=e.target.value;persist();fillSettings();toast("Demo pace changed to "+e.target.value+".")};document.addEventListener("pointerdown",()=>{if(!ac)try{ac=new (window.AudioContext||window.webkitAudioContext)()}catch{}},{once:true});
 
-function move(){markets.forEach((m,i)=>{const vol=m.p>10000?.0010:m.p>1000?.0008:m.p>100?.0007:.00065;m.p=Math.max(.0001,m.p*(1+(Math.random()-.496)*vol));m.series.push(m.p);if(m.series.length>70)m.series.shift()})}
+function move(){const pace=st.settings.pace||st.pace||"active",mult=pace==="fast"?2.8:pace==="active"?1.9:1.0;markets.forEach((m,i)=>{const base=m.p>10000?.0010:m.p>1000?.0008:m.p>100?.0007:.00065,trend=Math.sin(Date.now()/6500+i)*base*.18;m.p=Math.max(.0001,m.p*(1+(Math.random()-.492)*base*mult+trend));m.series.push(m.p);if(m.series.length>70)m.series.shift()})}
 function score(m){const a=m.series,s6=a.slice(-6).reduce((x,y)=>x+y,0)/6,s20=a.slice(-20).reduce((x,y)=>x+y,0)/20;return Math.max(1,Math.min(99,Math.round(50+(s6-s20)/s20*11000+(Math.random()-.5)*5)))}
 function sig(m){const s=score(m);if(st.stopped)return{l:"BLOCKED",c:"block",s,r:"Emergency Stop is active."};if(st.loss>=st.settings.dailyLoss)return{l:"BLOCKED",c:"block",s,r:"Daily loss limit reached. New trades are locked."};if(s>=st.settings.minScore)return{l:"BUY NOW",c:"buy",s,r:"Positive demo momentum is above the configured entry score."};if(st.settings.shorts&&s<=100-st.settings.minScore)return{l:"SELL NOW",c:"sell",s,r:"Negative demo momentum is strong enough for a demo short setup."};return{l:"WAIT",c:"wait",s,r:"No strong setup is confirmed. Keeping cash is allowed."}}
 function marketBy(s){return markets.find(m=>m.s===s)||markets[0]}
@@ -280,6 +373,14 @@ function spark(m){const a=m.series.slice(-30),mn=Math.min(...a),mx=Math.max(...a
 function renderProfile(){
  const p=st.profile;$("welcome").textContent="Welcome, "+(p.first||"Mrs. Barry");$("miniBroker").textContent=p.broker;$("miniPlatform").textContent=p.platform;$("miniAccount").textContent=p.accountCurrency;$("miniDisplay").textContent=p.displayCurrency;$("miniFunding").textContent=p.funding;$("miniMode").textContent=st.settings.execution==="auto"?"Full Auto Demo":st.settings.execution==="confirm"?"Confirmation Required":"Signal Only";
  $("pFirst").value=p.first;$("pLast").value=p.last;$("pEmail").value=p.email;$("pCountry").value=p.country;$("pBroker").value=p.broker;$("pPlatform").value=p.platform;$("pAccountCurrency").value=p.accountCurrency;$("pDisplayCurrency").value=p.displayCurrency;$("pFx").value=p.fx;$("pFunding").value=p.funding;$("pBrokerUrl").value=p.brokerUrl;$("pStatus").value=p.status
+}
+
+function renderStory(){
+ const net=st.vault-st.loss, last=st.history[0];
+ $("todayStart").textContent=money(st.todayStart||st.settings.capital);$("todayProfit").textContent=money(st.vault);$("todayLoss").textContent=money(st.loss);$("todayNet").textContent=money(net);$("todayNet").className=net>=0?"good":"bad";$("closedTrades").textContent=st.closedTrades||0;$("winLossText").textContent=`${st.wins||0} wins · ${st.losses||0} losses`;
+ $("storyLastAction").textContent=last?last.title:"Monitoring markets";$("storyLastActionDetail").textContent=last?last.text:"Mrs. Barry is looking for a valid demo opportunity.";$("liveRobotText").textContent=st.stopped?"ROBOT STOPPED":st.positions.length?"MANAGING OPEN TRADE":"ROBOT IS WATCHING";
+ $("lastTradeBadge").textContent=st.lastClosed||"No closed trade yet";
+ const items=st.history.slice(0,8);$("storyFeed").innerHTML=items.length?items.map(x=>`<div class="feeditem ${x.type==="PROFIT"?"profit":x.type==="LOSS"?"loss":""}"><b>${x.title}</b>${x.market?` · ${x.market}`:""}${x.result?` · <span class="${String(x.result).startsWith("-")?"bad":"good"}">${x.result}</span>`:""}<br><small>${x.time} — ${x.text}</small></div>`).join(""):`<div class="feeditem"><b>Robot is monitoring</b><br><small>No action has been needed yet.</small></div>`
 }
 function renderStats(){
  const op=openPnl();$("capital").textContent=money(st.settings.capital);$("available").textContent=money(avail());$("invested").textContent=money(used());$("vault").textContent=money(st.vault);$("loss").textContent=money(st.loss);$("openPnl").textContent=money(op);$("openPnl").className=op>=0?"good":"bad";$("totalResult").textContent=money(totalResult());$("totalResult").className=totalResult()>=0?"good":"bad";$("openCount").textContent=st.positions.length+" / "+st.settings.maxPositions
@@ -301,19 +402,22 @@ function renderPositions(){
 function renderHistory(){
  const items=st.history;$("historyFeed").innerHTML=items.length?items.map(x=>`<div class="feeditem"><b>${x.type}: ${x.title}</b>${x.market?` · <span class="good">${x.market}</span>`:""}${x.result?` · <span class="${String(x.result).startsWith("-")?"bad":"good"}">${x.result}</span>`:""}<br><small>${x.time} — ${x.text}</small></div>`).join(""):`<div class="feeditem"><b>Robot ready</b><br><small>No demo actions recorded yet.</small></div>`;$("shortFeed").innerHTML=(items.slice(0,6).map(x=>`<div class="feeditem"><b>${x.title}</b><br><small>${x.time} · ${x.text}</small></div>`).join("")||`<div class="feeditem"><b>Monitoring markets</b><br><small>The robot is waiting for its first valid demo setup.</small></div>`)
 }
-function fillSettings(){const s=st.settings;$("sCapital").value=s.capital;$("sReserve").value=s.reserve;$("sTradeCapital").value=s.tradeCapital;$("sMaxPositions").value=s.maxPositions;$("sMaxLoss").value=s.maxLoss;$("sDailyLoss").value=s.dailyLoss;$("sMinScore").value=s.minScore;$("sStopPct").value=s.stopPct;$("sTargetPct").value=s.targetPct;$("sTrailPct").value=s.trailPct;$("sNotify").value=s.notify;$("sReinvest").value=String(s.reinvest);$("sSelection").value=s.selection;$("sExecution").value=s.execution;$("sShorts").value=String(s.shorts);$("maxMonitored").value=String(s.maxMonitored)}
-function renderAll(){chooseAuto();renderProfile();renderStats();renderChart();renderMarkets();renderPositions();renderHistory();fillSettings();$("robotState").textContent=st.stopped?"STOPPED":"MONITORING";$("robotState").className=st.stopped?"bad":"good";$("stopBtn").innerHTML=st.stopped?'▶ <span class="lbl">Resume Robot</span>':'⛔ <span class="lbl">Emergency Stop</span>'}
+function fillSettings(){const s=st.settings;$("sCapital").value=s.capital;$("sReserve").value=s.reserve;$("sTradeCapital").value=s.tradeCapital;$("sMaxPositions").value=s.maxPositions;$("sMaxLoss").value=s.maxLoss;$("sDailyLoss").value=s.dailyLoss;$("sMinScore").value=s.minScore;$("sStopPct").value=s.stopPct;$("sTargetPct").value=s.targetPct;$("sTrailPct").value=s.trailPct;$("sNotify").value=s.notify;$("sReinvest").value=String(s.reinvest);$("sSelection").value=s.selection;$("sExecution").value=s.execution;$("sShorts").value=String(s.shorts);$("sPace").value=s.pace||"active";$("demoPace").value=s.pace||"active";$("maxMonitored").value=String(s.maxMonitored)}
+function renderAll(){chooseAuto();renderProfile();renderStory();renderStats();renderChart();renderMarkets();renderPositions();renderHistory();fillSettings();$("robotState").textContent=st.stopped?"STOPPED":"MONITORING";$("robotState").className=st.stopped?"bad":"good";$("stopBtn").innerHTML=st.stopped?'▶ <span class="lbl">Resume Robot</span>':'⛔ <span class="lbl">Emergency Stop</span>'}
 
 function canTrade(){if(st.stopped)return"Emergency Stop is active.";if(st.loss>=st.settings.dailyLoss)return"Daily loss limit reached.";if(st.positions.length>=st.settings.maxPositions)return"Maximum open positions reached.";if(avail()<1)return"No available capital after reserve.";return""}
 let pending=null;
 function request(side,auto=false){const block=canTrade();if(block)return toast(block);if(side==="SELL"&&!st.settings.shorts)return toast("Short / SELL trades are disabled.");const m=marketBy(st.selected),cap=Math.min(st.settings.tradeCapital,avail());if(st.settings.execution==="signal"&&!auto)return toast(side+" signal shown. Signal Only mode does not open a trade.");if((st.settings.execution==="confirm"||st.settings.selection==="recommend")&&!auto){pending={side,s:st.selected,cap};$("modalTitle").textContent="Confirm "+side+" Demo Trade";$("modalText").textContent=`Open a simulated ${side} position on ${m.s} using ${money(cap)}? This does not send a broker order.`;$("tradeModal").classList.add("open");return}openPosition(side,st.selected,cap)}
-function openPosition(side,symbol,cap){const m=marketBy(symbol),dir=side==="BUY"?1:-1,entry=m.p,stop=entry*(1-dir*st.settings.stopPct/100),target=entry*(1+dir*st.settings.targetPct/100);st.positions.push({id:Date.now()+Math.random(),s:symbol,side,capital:cap,entry,stop,target,best:entry,targetHit:false});log("TRADE","Mrs. Barry bought / opened a demo position",`${side} ${symbol} opened with ${money(cap)}. The robot is now monitoring the stop and profit target.`,symbol);persist();cue(side);renderAll();toast(side+" demo position opened on "+symbol)}
-function closePosition(id,why){const k=st.positions.findIndex(p=>p.id===id);if(k<0)return;const p=st.positions[k],x=pnl(p),m=marketBy(p.s);if(x>=0){st.vault+=x;if(st.settings.reinvest)st.settings.capital+=x;log("PROFIT","Congratulations — profit secured",`Mrs. Barry closed ${p.s} because ${why}. Profit was added to the Profit Vault.`,p.s,money(x));cue("PROFIT")}else{st.loss+=Math.abs(x);st.settings.capital=Math.max(0,st.settings.capital+x);log("LOSS","Risk exit completed",`Mrs. Barry closed ${p.s} because ${why}. The realised loss was recorded and strategy capital was reduced.`,p.s,money(x));cue("LOSS")}st.positions.splice(k,1);persist();renderAll();if(st.vault>=st.settings.notify)toast("Profit Vault target reached. Review a manual withdrawal in the official broker portal.")}
+function openPosition(side,symbol,cap){const m=marketBy(symbol),dir=side==="BUY"?1:-1,entry=m.p,stop=entry*(1-dir*st.settings.stopPct/100),target=entry*(1+dir*st.settings.targetPct/100);st.positions.push({id:Date.now()+Math.random(),s:symbol,side,capital:cap,entry,stop,target,best:entry,targetHit:false,openedAt:Date.now()});log("TRADE","Mrs. Barry bought / opened a demo position",`${side} ${symbol} opened with ${money(cap)}. The robot is now monitoring the stop and profit target.`,symbol);persist();cue(side);renderAll();toast(side+" demo position opened on "+symbol)}
+function closePosition(id,why){const k=st.positions.findIndex(p=>p.id===id);if(k<0)return;const p=st.positions[k],x=pnl(p),m=marketBy(p.s);if(x>=0){st.vault+=x;st.wins=(st.wins||0)+1;st.closedTrades=(st.closedTrades||0)+1;st.lastClosed=`${p.s} · PROFIT ${money(x)}`;if(st.settings.reinvest)st.settings.capital+=x;log("PROFIT","Congratulations — profit secured",`Mrs. Barry closed ${p.s} because ${why}. Profit was added to the Profit Vault.`,p.s,money(x));cue("PROFIT");celebrate("profit","Congratulations!",`${money(x)} profit was secured from ${p.s} and saved in the Profit Vault.`)}else{st.loss+=Math.abs(x);st.losses=(st.losses||0)+1;st.closedTrades=(st.closedTrades||0)+1;st.lastClosed=`${p.s} · LOSS ${money(x)}`;st.settings.capital=Math.max(0,st.settings.capital+x);log("LOSS","Risk exit completed",`Mrs. Barry closed ${p.s} because ${why}. The realised loss was recorded and strategy capital was reduced.`,p.s,money(x));cue("LOSS");celebrate("loss","Trade protected",`${money(x)} was realised on ${p.s}. The loss was recorded and the robot continues under the risk rules.`)}st.positions.splice(k,1);persist();renderAll();if(st.vault>=st.settings.notify)toast("Profit Vault target reached. Review a manual withdrawal in the official broker portal.")}
 function protect(){
  st.positions.slice().forEach(p=>{const m=marketBy(p.s),dir=p.side==="BUY"?1:-1;p.best=p.side==="BUY"?Math.max(p.best,m.p):Math.min(p.best,m.p);const stopHit=p.side==="BUY"?m.p<=p.stop:m.p>=p.stop,targetHit=p.side==="BUY"?m.p>=p.target:m.p<=p.target;
  if(stopHit)return closePosition(p.id,"STOP LOSS / risk protection");
  if(targetHit){p.targetHit=true;const dist=st.settings.trailPct/100;p.stop=p.side==="BUY"?Math.max(p.stop,p.best*(1-dist)):Math.min(p.stop,p.best*(1+dist))}
- const d=sig(m);if(p.side==="BUY"&&d.l==="SELL NOW")return closePosition(p.id,"a strong opposite SELL signal");if(p.side==="SELL"&&d.l==="BUY NOW")return closePosition(p.id,"a strong opposite BUY signal")
+ const d=sig(m);if(p.side==="BUY"&&d.l==="SELL NOW")return closePosition(p.id,"a strong opposite SELL signal");if(p.side==="SELL"&&d.l==="BUY NOW")return closePosition(p.id,"a strong opposite BUY signal");
+ const held=(Date.now()-(p.openedAt||Date.now()))/1000,pace=st.settings.pace||"active",demoLimit=pace==="fast"?10:pace==="active"?18:35,x=pnl(p);
+ if(held>demoLimit && x>Math.max(.015,p.capital*.0007))return closePosition(p.id,"the demo profit-protection rule secured an available gain");
+ if(held>demoLimit*1.6 && x<0)return closePosition(p.id,"the demo time/risk rule prevented the position from drifting indefinitely")
  })}
 function autoTrade(){
  if(st.settings.execution!=="auto"||st.stopped||Date.now()-st.lastAuto<7000)return;
@@ -327,12 +431,14 @@ $("stopBtn").onclick=()=>{st.stopped=!st.stopped;log("SAFETY",st.stopped?"Emerge
 $("marketSearch").oninput=renderMarkets;$("categoryFilter").onchange=renderMarkets;$("maxMonitored").onchange=e=>{st.settings.maxMonitored=+e.target.value;if(st.active.length>st.settings.maxMonitored)st.active=st.active.slice(0,st.settings.maxMonitored);persist();renderAll()};
 $("clearHistory").onclick=()=>{st.history=[];persist();renderHistory()};
 $("saveProfile").onclick=()=>{st.profile={first:$("pFirst").value.trim(),last:$("pLast").value.trim(),email:$("pEmail").value.trim(),country:$("pCountry").value.trim()||"Kenya",broker:$("pBroker").value.trim()||"Pepperstone",platform:$("pPlatform").value,accountCurrency:$("pAccountCurrency").value,displayCurrency:$("pDisplayCurrency").value,fx:Math.max(.001,+$("pFx").value||1),funding:$("pFunding").value,brokerUrl:$("pBrokerUrl").value.trim(),status:$("pStatus").value};persist();renderAll();toast("Profile saved on this device.")};
-$("openBroker").onclick=()=>{const u=st.profile.brokerUrl;if(!u)return toast("Add the official broker portal HTTPS URL first.");try{const x=new URL(u);if(x.protocol!=="https:")throw 0;window.open(x.href,"_blank","noopener")}catch{toast("Please enter a valid official HTTPS broker portal URL.")}};
-$("saveSettings").onclick=()=>{if(st.positions.length)return toast("Close demo positions before changing core capital settings.");const s=st.settings;s.capital=Math.max(10,+$("sCapital").value||100);s.reserve=Math.min(s.capital,Math.max(0,+$("sReserve").value||0));s.tradeCapital=Math.max(1,+$("sTradeCapital").value||25);s.maxPositions=Math.max(1,+$("sMaxPositions").value||1);s.maxLoss=Math.max(.1,+$("sMaxLoss").value||2);s.dailyLoss=Math.max(.1,+$("sDailyLoss").value||5);s.minScore=Math.max(55,Math.min(95,+$("sMinScore").value||68));s.stopPct=Math.max(.1,+$("sStopPct").value||.7);s.targetPct=Math.max(.1,+$("sTargetPct").value||1);s.trailPct=Math.max(.1,+$("sTrailPct").value||.35);s.notify=Math.max(1,+$("sNotify").value||100);s.reinvest=$("sReinvest").value==="true";s.selection=$("sSelection").value;s.execution=$("sExecution").value;s.shorts=$("sShorts").value==="true";persist();log("SETTING","Robot settings saved","Capital, risk and execution settings were updated by the owner.");renderAll();toast("Settings saved.")};
-$("resetDemo").onclick=()=>{if(confirm("Reset the complete Mrs. Barry demo, including profile, history and results?")){localStorage.removeItem("mrsBarryV5");location.reload()}};
+$("usePepperstoneLogin").onclick=()=>{$("pBrokerUrl").value="https://pepperstone.com/en-gb/log-in";toast("Official Pepperstone login shortcut filled in. Save Profile to keep it.")};
+$("openSavedBroker").onclick=()=>{const u=$("pBrokerUrl").value.trim();try{const x=new URL(u);if(x.protocol!=="https:"||!x.hostname.endsWith("pepperstone.com"))throw 0;window.open(x.href,"_blank","noopener")}catch{toast("For safety, use an official HTTPS pepperstone.com address.")}};
+$("openBroker").onclick=()=>{const u=st.profile.brokerUrl;if(!u)return toast("Add the official broker portal HTTPS URL first.");try{const x=new URL(u);if(x.protocol!=="https:"||!x.hostname.endsWith("pepperstone.com"))throw 0;window.open(x.href,"_blank","noopener")}catch{toast("Please enter an official HTTPS pepperstone.com URL.")}};
+$("saveSettings").onclick=()=>{if(st.positions.length)return toast("Close demo positions before changing core capital settings.");const s=st.settings;s.capital=Math.max(10,+$("sCapital").value||100);s.reserve=Math.min(s.capital,Math.max(0,+$("sReserve").value||0));s.tradeCapital=Math.max(1,+$("sTradeCapital").value||25);s.maxPositions=Math.max(1,+$("sMaxPositions").value||1);s.maxLoss=Math.max(.1,+$("sMaxLoss").value||2);s.dailyLoss=Math.max(.1,+$("sDailyLoss").value||5);s.minScore=Math.max(55,Math.min(95,+$("sMinScore").value||68));s.stopPct=Math.max(.1,+$("sStopPct").value||.7);s.targetPct=Math.max(.1,+$("sTargetPct").value||1);s.trailPct=Math.max(.1,+$("sTrailPct").value||.35);s.notify=Math.max(1,+$("sNotify").value||100);s.reinvest=$("sReinvest").value==="true";s.selection=$("sSelection").value;s.execution=$("sExecution").value;s.shorts=$("sShorts").value==="true";s.pace=$("sPace").value;st.pace=s.pace;persist();log("SETTING","Robot settings saved","Capital, risk and execution settings were updated by the owner.");renderAll();toast("Settings saved.")};
+$("resetDemo").onclick=()=>{if(confirm("Reset the complete Mrs. Barry V6 demo, including profile, history and results?")){localStorage.removeItem("mrsBarryV6");location.reload()}};
 setInterval(()=>{$("clock").textContent="Demo environment · "+new Date().toLocaleString([], {weekday:"short",hour:"2-digit",minute:"2-digit",second:"2-digit"})},1000);
-setInterval(()=>{move();protect();autoTrade();renderAll();if(st.soundOn&&Math.random()<.06)tone(520,.07,.2)},1600);
-if(!st.history.length)log("SYSTEM","Mrs. Barry is ready","The demo robot is monitoring the selected markets. It will document simulated entries, exits, profits, losses and safety decisions.");
+setInterval(()=>{move();protect();autoTrade();renderAll();if(st.soundOn&&Math.random()<.06)tone(520,.07,.2)},1200);
+if(!st.history.length)log("SYSTEM","Mrs. Barry is ready","The demo robot is monitoring the selected markets. It will visibly document simulated BUY/SELL entries, exits, Profit Vault gains, losses and safety decisions.");
 renderAll();
 })();
 </script>
